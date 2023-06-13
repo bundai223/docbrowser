@@ -42,11 +42,11 @@
 		// {
 		// 	"target": "/usr/local/cargo/registry"
 		// },
-		// {
-		// 	"source": "~/.ssh",
-		// 	"target": "/home/vscode/.ssh",
-		// 	"type": "bind"
-		// }
+		{
+			"source": "${localEnv:HOME}${localEnv:USERPROFILE}/.ssh",
+			"target": "/home/vscode/.ssh",
+			"type": "bind"
+		}
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
