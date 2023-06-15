@@ -51,14 +51,6 @@
 			"target": "/usr/local/cargo/registry",
 			"type": "volume"
 		},
-		{
-			"target": "/home/vscode/.cpanm",
-			"type": "volume"
-		},
-		{
-			"target": "/home/vscode/perl5",
-			"type": "volume"
-		},
 		// {
 		// 	"target": "/home/vscode/.asdf/installs",
 		// 	"type": "volume"
