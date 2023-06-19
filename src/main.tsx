@@ -8,3 +8,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <App />
   </React.StrictMode>
 );
+
+import { registerAll } from '@tauri-apps/api/globalShortcut';
+await registerAll(['CommandOrControl+Shift+C', 'Control+C', 'c', 'C'], (shortcut) => {
+  console.log(`Shortcut ${shortcut} triggered`);
+});
