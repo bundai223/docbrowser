@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/rust:1
 
-RUN cargo install tauri-cli@1.2.3
+RUN cargo install tauri-cli@1.4.0
 USER root
 RUN chmod -R g+w /usr/local/cargo
 RUN apt-get update -y
