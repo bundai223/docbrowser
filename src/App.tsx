@@ -20,25 +20,10 @@ function App() {
   })()
 
   return (
-    <div className="container">
-      <h1>DocBrowser!</h1>
-
-      <div className="row">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            greet();
-          }}
-        >
-          <input
-            id="greet-input"
-            onChange={(e) => setName(e.currentTarget.value)}
-            placeholder="Enter a name..."
-          />
-          <button type="submit">Greet</button>
-        </form>
-      </div>
-      <p>{greetMsg}</p>
+    <div>
+      <h1 className="text-3xl font-bold underline">
+        Hello DocBrowser!
+      </h1>
     </div>
   );
 }
