@@ -9,10 +9,10 @@ import { registerAll } from '@tauri-apps/api/globalShortcut';
 function App() {
   (async () => {
     // 既に登録されていたら登録しない処理が必要
-    await registerAll(['CommandOrControl+Shift+C', 'CommandOrControl+Shift+1'], (shortcut) => {
+    await registerAll(["CommandOrControl+Shift+C"], (shortcut) => {
       alert(`Shortcut ${shortcut} triggered`);
     });
-  })()
+  })();
 
   return (
     <div className="app">
