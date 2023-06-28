@@ -1,6 +1,8 @@
 // import React, { useState } from "react";
 // import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
+import Sidebar from "./components/Sidebar";
+import Content from "./components/Content";
 import { registerAll } from '@tauri-apps/api/globalShortcut';
 
 function App() {
@@ -13,7 +15,8 @@ function App() {
   // }
 
   (async () => {
-    await registerAll(['CommandOrControl+Shift+C'], (shortcut) => {
+    // 既に登録されていたら登録しない処理が必要
+    await registerAll(['CommandOrControl+Shift+C', 'CommandOrControl+Shift+1'], (shortcut) => {
       alert(`Shortcut ${shortcut} triggered`);
     });
   })()
@@ -23,6 +26,8 @@ function App() {
       <h1 className="text-3xl font-bold underline">
         Hello DocBrowser!
       </h1>
+      <Sidebar />
+      <Content />
     </div>
   );
 }
