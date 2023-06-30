@@ -2,7 +2,7 @@
 
 .sidebar {
     position: absolute;
-    /* z-index: var(--sidebarZ); */
+    z-index: var(--sidebarZ);
     top: 0;
     bottom: 0;
     left: 0;
@@ -13,4 +13,6 @@
     background-clip: content-box;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
+
+    width: var(--sidebarWidth);
 }

@@ -1,19 +1,28 @@
 import "./Sidebar.css";
 
-function Sidebar() {
-  // const [greetMsg, setGreetMsg] = useState("");
-  // const [name, setName] = useState("");
+type Item = {
+  name: string
+  link: string
+};
 
-  // async function greet() {
-  //   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  //   setGreetMsg(await invoke("greet", { name }));
-  // }
+function Sidebar() {
+
+  const items: Item[] = [
+    { name: 'aaaa', link: '' },
+    { name: 'bbbb', link: '' }
+  ]
+
+  const list = items.map((item) =>
+    <li key={item.name}>
+      {item.name}
+    </li>
+  )
 
   return (
     <div className="sidebar">
-      <h1 className="text-3xl font-bold underline">
-        This is Sidebar
-      </h1>
+      <ul>
+        {list}
+      </ul>
     </div>
   );
 }
