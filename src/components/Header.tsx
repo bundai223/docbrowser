@@ -1,4 +1,4 @@
-import Button from './Button';
+import Button from './atom/Button';
 import './Header.css'
 
 function toConfig() {

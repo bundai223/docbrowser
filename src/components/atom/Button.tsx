@@ -1,4 +1,4 @@
-import { MouseEventHandler, PropsWithChildren } from './components.d';
+import { MouseEventHandler, PropsWithChildren } from '../components.d';
 
 type Props = {
   onClick: MouseEventHandler
