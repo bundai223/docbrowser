@@ -1,0 +1,30 @@
+.container {
+    position: relative;
+    /* z-index: var(--contentZ); */
+    height: 100%;
+    margin-left: var(--sidebarWidth);
+    pointer-events: none;
+}
+
+.content {
+    position: relative;
+    height: 100%;
+    overflow-y: scroll;
+    margin-left: .875rem;
+    padding: 1.125rem 1.5rem 0;
+    font-size: .875rem;
+    pointer-events: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.content > .intro {
+  display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-height: calc(100vh - 2.375rem);
+}

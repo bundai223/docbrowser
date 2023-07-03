@@ -1,44 +1,24 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
+// import React, { useState } from "react";
+// import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Content from "./components/Content";
 import { registerAll } from '@tauri-apps/api/globalShortcut';
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
   (async () => {
-    await registerAll(['CommandOrControl+Shift+C'], (shortcut) => {
+    // 既に登録されていたら登録しない処理が必要
+    await registerAll(["CommandOrControl+Shift+C"], (shortcut) => {
       alert(`Shortcut ${shortcut} triggered`);
     });
-  })()
+  })();
 
   return (
-    <div className="container">
-      <h1>DocBrowser!</h1>
-
-      <div className="row">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            greet();
-          }}
-        >
-          <input
-            id="greet-input"
-            onChange={(e) => setName(e.currentTarget.value)}
-            placeholder="Enter a name..."
-          />
-          <button type="submit">Greet</button>
-        </form>
-      </div>
-      <p>{greetMsg}</p>
+    <div className="app">
+      <Header />
+      <Sidebar />
+      <Content />
     </div>
   );
 }

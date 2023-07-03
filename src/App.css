@@ -1,7 +1,8 @@
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafb);
+.app {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    overflow: hidden;
+    -webkit-transition: opacity .2s;
+    transition: opacity .2s;
 }
