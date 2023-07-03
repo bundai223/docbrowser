@@ -18,6 +18,25 @@ function Sidebar() {
     </li>
   )
 
+  class Item {
+    name: string;
+    link: string;
+
+    constructor(_name: string, _link: string) {
+      this.name = _name;
+      this.link = _link;
+    }
+  }
+
+  const links = [
+    new Item('hoge', 'hoge'),
+    new Item('fuga', 'fuga')
+  ].map((item) =>
+    <li key={item.name}>
+      <a href={item.link}>{item.name}</a>
+    </li>
+  )
+
   return (
     <div className="sidebar">
       <ul>
