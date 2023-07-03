@@ -1,3 +1,4 @@
+import Button from './atom/Button';
 import './Header.css'
 
 function toConfig() {
@@ -21,7 +22,7 @@ function Header() {
         >
         </input>
       </form>
-      <button onClick={toConfig}>・・・</button>
+      <Button onClick={toConfig}>・・・</Button>
     </div>
   )
 }
