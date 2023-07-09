@@ -2,6 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod feeds;
+mod docset;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -10,8 +11,16 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-fn docsets() -> [&'static str; 2] {
-    ["docset a", "docset b" ]
+fn docsets() -> Vec<String> {
+    let con = docset::open_my_db("./../docsets/hoge.db3").unwrap();
+    let docsets = docset::docsets(&con);
+    let mut names: Vec<String> = Vec::new();
+    for d in docsets {
+        names.push(d.name)
+    }
+
+    names
+    // ["docset a", "docset b" ]
 }
 
 fn main() {
