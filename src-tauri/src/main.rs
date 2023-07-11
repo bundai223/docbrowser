@@ -4,12 +4,6 @@
 mod feeds;
 mod docset;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
 #[tauri::command]
 fn docsets() -> Vec<String> {
     let con = docset::open_my_db("./../docsets/hoge.db3").unwrap();
@@ -20,12 +14,25 @@ fn docsets() -> Vec<String> {
     }
 
     names
-    // ["docset a", "docset b" ]
 }
+
+#[tauri::command]
+fn search(word: &str) -> Vec<String> {
+    let con = docset::open_my_db("./../docsets/hoge.db3").unwrap();
+    let docsets = docset::search_docsets(&con, word);
+
+    let mut names: Vec<String> = Vec::new();
+    for d in docsets {
+        names.push(d.name)
+    }
+
+    names
+}
+
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, docsets])
+        .invoke_handler(tauri::generate_handler![docsets, search])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

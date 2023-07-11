@@ -1,30 +1,17 @@
 import "./Sidebar.css";
-import { invoke } from '@tauri-apps/api/tauri'
-import { useState } from "react";
 
-type Item = {
+export type Item = {
   name: string
   link: string
 };
 
-function Sidebar() {
+export type Props = {
+  items: Item[]
+}
 
-  const [items, setItems] = useState<Item[]>([
-    { name: 'aaaa', link: '' },
-    { name: 'bbbb', link: '' }
-  ])
+function Sidebar(props: Props) {
 
-  invoke('docsets').then((docsets) => {
-    console.log(docsets)
-
-    if(docsets instanceof Array<string>) {
-      setItems(
-        docsets.map((name: string) => { return { name: name, link: '' } })
-      )
-    }
-  })
-
-  const list = items.map((item) =>
+  const list = props.items.map((item) =>
     <li key={item.name}>
       {item.name}
     </li>

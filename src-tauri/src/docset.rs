@@ -53,6 +53,28 @@ pub fn docsets(con:&Connection) -> Vec<Docset> {
     _docsets
 }
 
+pub fn search_docsets(con:&Connection, word:&str) -> Vec<Docset> {
+    let query = format!("select id,department,name,salary from person where name like '%{}%'", word);
+    let mut stmt = con.prepare(&query.to_string()).unwrap();
+    let persons = stmt.query_map(params![], |row| {
+      Ok(Docset {
+          id: row.get(0).unwrap(),
+          department: row.get(1).unwrap(),
+          name: row.get(2).unwrap(),
+          salary: row.get(3).unwrap(),
+          avg_salary:None
+      })
+    }).unwrap();
+
+    let mut _docsets: Vec<Docset> = Vec::new();
+    for p in persons {
+      let docset = p.unwrap();
+      // println!("{:?}", docset);
+      _docsets.push(docset);
+    }
+    _docsets
+}
+
 pub fn select_window(con:&Connection) {
     let mut stmt = con.prepare("select id,department,name,salary,avg(salary) over defw from person window defw as (partition by department)").unwrap();
     let persons = stmt.query_map(params![], |row| {
