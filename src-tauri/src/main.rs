@@ -26,6 +26,15 @@ fn search(word: &str) -> Vec<String> {
         names.push(d.name)
     }
 
+    if word.is_empty() == false {
+        let doccon = docset::open_my_db("./../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
+        let search_indices = docset::search_index(&doccon, word);
+
+        for index in search_indices {
+            names.push(index.name)
+        }
+    }
+
     names
 }
 

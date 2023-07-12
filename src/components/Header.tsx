@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import Button from './atom/Button';
 import './Header.css'
 import { invoke } from '@tauri-apps/api';
@@ -20,26 +20,28 @@ function Header(props: Props) {
   // console.log(props)
   const [ search_query, setSearchQuery ] = useState<string>('')
 
-  function onSubmit(e: FormEvent) {
-    if (e.target && e.target instanceof HTMLFormElement) {
-      e.preventDefault();
-      
-      // console.log(search_query)
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
+    const _query = e.currentTarget.value;
+    setSearchQuery(_query);
 
-      invoke('search', { word: search_query }).then((docsets) => {
-        if(docsets instanceof Array<string>) {
-          const result: SearchResult[] = docsets.map((word: string) => { return { word: word } })
-          if (props.searchHandler) {
-            props.searchHandler(result)
-          }
+    invoke('search', { word: _query }).then((docsets) => {
+      if (docsets instanceof Array<string>) {
+        const result: SearchResult[] = docsets.map((word: string) => { return { word: word } })
+        if (props.searchHandler) {
+          props.searchHandler(result)
         }
-      })
-    }
+      }
+    })
   }
 
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
+  }
+      
+ 
   return (
-    <div className="search">
-      <form onSubmit={onSubmit}>
+    <div className="header">
+      <form className="search" onSubmit={onSubmit}>
         <input type="search"
           name="q"
           className="_search-input"
@@ -50,7 +52,7 @@ function Header(props: Props) {
           spellCheck="false"
           maxLength={30}
           aria-label="Search"
-          onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          onChange={onChange}
         >
         </input>
       </form>

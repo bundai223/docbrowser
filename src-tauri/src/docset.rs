@@ -9,27 +9,17 @@ pub struct Docset{
     avg_salary:Option<f32>
 }
 
+pub struct SearchIndex {
+  id: u16,
+  pub name: String,
+  pub doctype: String,
+  pub htmlpath: String 
+}
+
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
     let con = Connection::open(&db_path)?;
     // println!("{}", con.is_autocommit());
     Ok(con)
-}
-
-pub fn select_all(con:&Connection){
-    let mut stmt = con.prepare("select id,department,name,salary from person").unwrap();
-    let persons = stmt.query_map(params![], |row| {
-      Ok(Docset {
-          id: row.get(0).unwrap(),
-          department: row.get(1).unwrap(),
-          name: row.get(2).unwrap(),
-          salary: row.get(3).unwrap(),
-          avg_salary:None
-      })
-    }).unwrap();
-
-    for p in persons {
-      println!("{:?}", p.unwrap());
-    }
 }
 
 pub fn docsets(con:&Connection) -> Vec<Docset> {
@@ -73,6 +63,27 @@ pub fn search_docsets(con:&Connection, word:&str) -> Vec<Docset> {
       _docsets.push(docset);
     }
     _docsets
+}
+
+pub fn search_index(con:&Connection, word:&str) -> Vec<SearchIndex> {
+    let query = format!("select id, name, type, path from searchIndex where name like '%{}%'", word);
+    let mut stmt = con.prepare(&query.to_string()).unwrap();
+    let searchIndices = stmt.query_map(params![], |row| {
+      Ok(SearchIndex {
+          id: row.get(0).unwrap(),
+          name: row.get(1).unwrap(),
+          doctype: row.get(2).unwrap(),
+          htmlpath: row.get(3).unwrap(),
+      })
+    }).unwrap();
+
+    let mut _results: Vec<SearchIndex> = Vec::new();
+    for p in searchIndices {
+      let index = p.unwrap();
+      // println!("{:?}", docset);
+      _results.push(index);
+    }
+    _results
 }
 
 pub fn select_window(con:&Connection) {
