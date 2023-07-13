@@ -25,20 +25,21 @@ function Header(props: Props) {
     setSearchQuery(_query);
 
     invoke('search', { word: _query }).then((docsets) => {
-      if (docsets instanceof Array<string>) {
-        const result: SearchResult[] = docsets.map((word: string) => { return { word: word } })
-        if (props.searchHandler) {
-          props.searchHandler(result)
-        }
-      }
+      console.log(docsets)
+      // if (docsets instanceof Array<string>) {
+      //   const result: SearchResult[] = docsets.map((word: string) => { return { word: word } })
+      //   if (props.searchHandler) {
+      //     props.searchHandler(result)
+      //   }
+      // }
     })
   }
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
   }
-      
- 
+
+
   return (
     <div className="header">
       <form className="search" onSubmit={onSubmit}>
