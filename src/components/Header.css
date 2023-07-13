@@ -1,3 +1,17 @@
+.header {
+    position: absolute;
+    z-index: var(--headerZ);
+    top: 0;
+    left: 0;
+    display: -ms-flexbox;
+    display: flex;
+    width: var(--sidebarWidth);
+    height: var(--headerHeight);
+    background: var(--headerBackground);
+    border-bottom: 1px solid var(--headerBorder);
+    border-right: 1px solid var(--headerBorder);
+}
+
 .search {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -8,7 +22,7 @@
 }
 
 .search > input {
-position: relative;
+    position: relative;
     display: block;
     width: 100%;
     height: 100%;

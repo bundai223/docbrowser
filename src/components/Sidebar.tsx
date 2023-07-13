@@ -1,18 +1,17 @@
 import "./Sidebar.css";
 
-type Item = {
+export type Item = {
   name: string
   link: string
 };
 
-function Sidebar() {
+export type Props = {
+  items: Item[]
+}
 
-  const items: Item[] = [
-    { name: 'aaaa', link: '' },
-    { name: 'bbbb', link: '' }
-  ]
+function Sidebar(props: Props) {
 
-  const list = items.map((item) =>
+  const list = props.items.map((item) =>
     <li key={item.name}>
       {item.name}
     </li>
