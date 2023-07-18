@@ -1,7 +1,14 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Button from './atom/Button';
 import './Header.css'
-import { invoke } from '@tauri-apps/api';
+// import { invoke } from '@tauri-apps/api';
+import { tauriClient } from '@/client'
+
+const search = (search_word: string): Promise<string> => {
+	// return await invoke('get_app_name')
+	return tauriClient.query(['app.search', search_word]) // エディタ補完が効く
+}
+
 
 function toConfig() {
   console.log('to config.')
@@ -27,15 +34,19 @@ function Header(props: Props) {
     const _query = e.currentTarget.value;
     setSearchQuery(_query);
 
-    invoke('search', { word: _query }).then((docsets) => {
-      console.log(docsets)
+    search(_query).then(a => {
+      console.log(a)
+    });
+
+    // invoke('search', { word: _query }).then((docsets) => {
+    //   console.log(docsets)
       // if (docsets instanceof Array<string>) {
       //   const result: SearchResult[] = docsets.map((word: string) => { return { word: word } })
       //   if (props.searchHandler) {
       //     props.searchHandler(result)
       //   }
       // }
-    })
+    // })
   }
 
   function onSubmit(e: FormEvent) {

@@ -1,7 +1,6 @@
 // 参考: https://github.com/kapeli/feeds
 // https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.xml
 
-use std::fs::File;
 use std::io::{BufReader};
 
 use xml::reader::{EventReader, XmlEvent};
