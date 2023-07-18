@@ -7,9 +7,20 @@ import Content from "./components/Content";
 import { registerAll, unregisterAll } from '@tauri-apps/api/globalShortcut';
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api";
+import { tauriClient } from '@/client'
+
+const getAppName = (): Promise<string> => {
+	// return await invoke('get_app_name')
+	return tauriClient.query(['app.getAppName']) // エディタ補完が効く
+}
 
 function App() {
   const [ searchResults, setSearchResult ] = useState<Item[]>([]);
+
+  (async () => {
+    const a = await getAppName();
+    console.log('aaaaaaaa' + a)
+  })();
 
   (async () => {
     console.log('unregister')
