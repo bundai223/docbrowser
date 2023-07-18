@@ -54,6 +54,11 @@
       "target": "/usr/local/cargo",
       "type": "volume"
     },
+    {
+      "source": "cpanm",
+      "target": "/usr/local/share/perl",
+      "type": "volume"
+    },
     // {
     //   "source": "rustup",
     //   "target": "/usr/local/rustup",

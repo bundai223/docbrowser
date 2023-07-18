@@ -12,7 +12,10 @@ type Props = {
 }
 
 export type SearchResult = {
-  word: string;
+  id: number;
+  doctype: string;
+  htmlpath: string;
+  name: string;
 }
 export type SearchHandler = (searched: SearchResult[]) => void
 

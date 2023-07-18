@@ -39,7 +39,7 @@ function App() {
     console.log('this is test')
     console.log(result)
 
-    setSearchResult(result.map((result) => { return { name: result.word, link: '' }} ))
+    setSearchResult(result.map((result) => { return { name: result.name, link: '' }} ))
   }
 
   return (

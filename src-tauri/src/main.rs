@@ -3,8 +3,10 @@
 
 use docset::SearchIndex;
 
+mod router;
 mod feeds;
 mod docset;
+mod debug;
 
 #[tauri::command]
 fn docsets() -> Vec<String> {
@@ -42,9 +44,12 @@ fn search(word: &str) -> Vec<SearchIndex> {
     results
 }
 
+#[tokio::main]
+async fn main() {
+    let _ = debug::debug_print();
 
-fn main() {
     tauri::Builder::default()
+        .plugin(rspc::integrations::tauri::plugin(router::mount(), || ()))
         .invoke_handler(tauri::generate_handler![docsets, search])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
