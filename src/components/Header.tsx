@@ -21,7 +21,7 @@ type Props = {
 export type SearchResult = {
   id: number;
   doctype: string;
-  htmlpath: string;
+  html_path: string;
   name: string;
 }
 export type SearchHandler = (searched: SearchResult[]) => void

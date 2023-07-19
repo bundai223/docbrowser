@@ -70,6 +70,8 @@ async fn download_feed(url: &str) -> Result<String, reqwest::Error> {
 
 #[cfg(test)]
 mod tests {
+    use std::fs::File;
+
     use super::*;
 
     #[test]
