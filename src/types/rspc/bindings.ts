@@ -4,7 +4,11 @@
 export type Procedures = {
     queries: 
         { key: "app.getAppName", input: never, result: string } | 
-        { key: "app.search", input: string, result: string },
+        { key: "app.search", input: string, result: SearchResult },
     mutations: never,
     subscriptions: never
 };
+
+export type SearchResult = { indices: SearchIndex[] }
+
+export type SearchIndex = { id: number; name: string; doctype: string; htmlpath: string }

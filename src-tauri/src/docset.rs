@@ -1,3 +1,4 @@
+use rspc::Type;
 use rusqlite::{params, Connection, Result};
 
 #[derive(Debug)]
@@ -9,7 +10,7 @@ pub struct Docset{
     avg_salary:Option<f32>
 }
 
-#[derive(serde::Serialize)]
+#[derive(Type, serde::Serialize)]
 pub struct SearchIndex {
   id: u16,
   pub name: String,
