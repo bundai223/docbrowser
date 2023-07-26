@@ -1,27 +1,40 @@
+import { SearchIndex } from "./Header";
 import "./Sidebar.css";
 
-export type Item = {
+export type Docset = {
   name: string
-  link: string
 };
+
+export type Item = Docset | SearchIndex;
 
 export type Props = {
   items: Item[]
 }
 
+function isSearchResult(item: Item): item is SearchIndex {
+  return (item as SearchIndex).htmlpath != undefined;
+}
+
 function Sidebar(props: Props) {
 
   const list = props.items.map((item) =>
-    <li key={item.name}>
-      {item.name}
-    </li>
+    {
+      if (isSearchResult(item)) {
+        return <div key={item.id}>
+          {item.doctype}
+          {item.name}
+        </div>
+      } else {
+        return <div key={item.name}>
+          {item.name}
+        </div>
+      }
+    }
   )
 
   return (
     <div className="sidebar">
-      <ul>
-        {list}
-      </ul>
+      {list}
     </div>
   );
 }

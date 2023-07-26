@@ -1,18 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import Button from './atom/Button';
+import Button from './atoms/Button';
 import './Header.css'
 // import { invoke } from '@tauri-apps/api';
 import { tauriClient } from '@/client'
 import { SearchResult as RawSearchResult, SearchIndex as RawSearchIndex } from '@/types/rspc/bindings';
-
-const search = (search_word: string): Promise<RawSearchResult> => {
-	// return await invoke('get_app_name')
-	return tauriClient.query(['app.search', search_word]) // エディタ補完が効く
-}
-
-function toConfig() {
-  console.log('to config.')
-}
 
 type Props = {
   searchHandler?: SearchHandler
@@ -21,6 +12,11 @@ type Props = {
 export type SearchResult = RawSearchResult;
 export type SearchIndex = RawSearchIndex;
 export type SearchHandler = (searched: SearchResult) => void
+
+const search = (search_word: string): Promise<RawSearchResult> => {
+	// return await invoke('get_app_name')
+	return tauriClient.query(['app.search', search_word]) // エディタ補完が効く
+}
 
 function Header(props: Props) {
   // console.log(props)
@@ -37,10 +33,13 @@ function Header(props: Props) {
     }
   }
 
+  function toConfig() {
+    console.log('to config.')
+  }
+
   function onSubmit(e: FormEvent) {
     e.preventDefault();
   }
-
 
   return (
     <div className="header">
