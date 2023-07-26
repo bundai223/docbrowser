@@ -21,7 +21,8 @@ pub(crate) fn mount() -> RouterBuilder {
             t(|_, search_word: String|
                 search(&search_word)
             )
-        })
+        }
+    )
 }
 
 #[tauri::command]
