@@ -11,6 +11,7 @@
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
+    // "ghcr.io/devcontainers/features/python:1": {},
     "ghcr.io/devcontainers/features/common-utils:2": {
       "installZsh": true,
       "installOhMyZsh": false,
@@ -37,22 +38,31 @@
         "ms-azuretools.vscode-docker",
         "tauri-apps.tauri-vscode",
         "rust-lang.rust-analyzer",
-        "vadimcn.vscode-lldb"
+        "vadimcn.vscode-lldb",
+        "oscartbeaumont.rspc-vscode"
       ]
     }
   },
   "mounts": [
     {
+      "source": "node_modules",
       "target": "/workspaces/docbrowser/node_modules",
       "type": "volume"
     },
     {
-      "target": "/usr/local/cargo/registry",
+      "source": "cargo",
+      "target": "/usr/local/cargo",
+      "type": "volume"
+    },
+    {
+      "source": "cpanm",
+      "target": "/usr/local/share/perl",
       "type": "volume"
     },
     // {
-    // 	"target": "/home/vscode/.asdf/installs",
-    // 	"type": "volume"
+    //   "source": "rustup",
+    //   "target": "/usr/local/rustup",
+    //   "type": "volume"
     // },
     {
       "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.ssh",
