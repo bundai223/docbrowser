@@ -35,10 +35,7 @@ function App() {
   }, [])
 
   const updateResult = (result: SearchResult) => {
-    console.log('this is test')
-    console.log(result)
-
-    setSearchResult(result.indices.map((result) => { return { name: result.name, link: '' }} ))
+    setSearchResult(result.indices)
   }
 
   return (

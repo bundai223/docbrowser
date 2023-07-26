@@ -1,5 +1,6 @@
 import { SearchIndex } from "./Header";
 import "./Sidebar.css";
+import MenuItem from "./molecules/MenuItem";
 
 export type Docset = {
   name: string
@@ -20,10 +21,7 @@ function Sidebar(props: Props) {
   const list = props.items.map((item) =>
     {
       if (isSearchResult(item)) {
-        return <div key={item.id}>
-          {item.doctype}
-          {item.name}
-        </div>
+        return <MenuItem key={item.id} item={item}></MenuItem>;
       } else {
         return <div key={item.name}>
           {item.name}
