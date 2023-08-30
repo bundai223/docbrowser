@@ -23,7 +23,7 @@ fn docsets() -> Vec<String> {
 #[tauri::command]
 fn search(word: &str) -> Vec<SearchIndex> {
     let con = docset::open_my_db("./../docsets/hoge.db3").unwrap();
-    let docsets = docset::search_docsets(&con, word);
+    // let docsets = docset::search_docsets(&con, word);
 
     // let mut names: Vec<String> = Vec::new();
     // for d in docsets {
@@ -49,6 +49,20 @@ async fn main() {
     let _ = debug::debug_print();
 
     tauri::Builder::default()
+        .setup(|app| {
+            let p = app.path_resolver().app_data_dir();
+            println!("app data dir: {:?}", p.unwrap());
+            
+            let localp = app.path_resolver().app_local_data_dir();
+            println!("local data dir: {:?}", localp.unwrap());
+
+            let library = app.path_resolver().app_config_dir();
+            println!("app config: {:?}", library);
+
+            let appdir = app.path_resolver().app_dir();
+            println!("app: {:?}", appdir.unwrap());
+            Ok(())
+        })
         .plugin(rspc::integrations::tauri::plugin(router::mount(), || ()))
         .invoke_handler(tauri::generate_handler![docsets, search])
         .run(tauri::generate_context!())
