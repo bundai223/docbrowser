@@ -31,7 +31,7 @@ fn search(word: &str) -> SearchResult {
         return SearchResult { indices: Vec::new() };
     }
 
-    let docsets_connection = docset::open_my_db("./../docsets/docset_master.sqlite3").unwrap();
+    let docsets_connection = docset::open_my_db("./docsets/a").unwrap();
     // let docsets = docset::search_docsets(&docsets_connection, word);
     let docsets = docset::search_docsets(&docsets_connection, "TypeScript");
 
@@ -39,7 +39,7 @@ fn search(word: &str) -> SearchResult {
 
     for d in docsets {
         // let doc_con = docset::open_my_db("./../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
-        let doc_con = docset::open_my_db("./../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
+        let doc_con = docset::open_my_db("./docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
         let search_indices = docset::search_index(&doc_con, word, d);
 
         for index in search_indices {
