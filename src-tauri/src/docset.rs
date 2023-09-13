@@ -19,6 +19,14 @@ pub struct SearchIndex {
   pub docset_name: String
 }
 
+pub fn docsets_mater_db_path() -> String {
+  "./docsets/docsets.sqlite3".to_string()
+}
+
+pub fn docset_db_path(docset_name: impl Into<String>) -> String {
+  "./docsets/TypeScript.docset/Contents/Resources/docSet.dsidx".to_string()
+}
+
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
     let con = Connection::open(&db_path)?;
     // println!("{}", con.is_autocommit());

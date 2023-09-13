@@ -31,15 +31,16 @@ fn search(word: &str) -> SearchResult {
         return SearchResult { indices: Vec::new() };
     }
 
-    let docsets_connection = docset::open_my_db("./docsets/a").unwrap();
+    let target_docset_name = "TypeScript";
+    let docsets_connection = docset::open_my_db(&docset::docsets_mater_db_path()).unwrap();
     // let docsets = docset::search_docsets(&docsets_connection, word);
-    let docsets = docset::search_docsets(&docsets_connection, "TypeScript");
+    let docsets = docset::search_docsets(&docsets_connection, target_docset_name);
 
     let mut result = SearchResult { indices: Vec::new() };
 
     for d in docsets {
         // let doc_con = docset::open_my_db("./../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
-        let doc_con = docset::open_my_db("./docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
+        let doc_con = docset::open_my_db(&docset::docset_db_path(target_docset_name)).unwrap();
         let search_indices = docset::search_index(&doc_con, word, d);
 
         for index in search_indices {
