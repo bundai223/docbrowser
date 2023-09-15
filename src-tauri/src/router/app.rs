@@ -12,10 +12,9 @@ struct SearchResult {
 }
 
 pub(crate) fn mount() -> RouterBuilder {
-	// getAppNameをエンドポイントとし、文字列で"rspc Test Project"を返す
 	<RouterBuilder>::new()
+	    // getAppNameをエンドポイントとし、文字列で"rspc Test Project"を返す
 		.query("getAppName", |t| t(|_: (), _: ()| "rspc Test Project"))
-		// .query("search", |t| t(|_, search_word: String| ok(search(&search_word))))
 		.query("search", |t| {
             // t(|_, search_word: String| { Ok::<String, rspc::Error>("Hello world".into()) })
             t(|_, search_word: String|
