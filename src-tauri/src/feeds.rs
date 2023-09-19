@@ -9,20 +9,26 @@ fn read_feed<R: std::io::Read>(bufreader: BufReader<R>) {
     let parser = EventReader::new(bufreader);
     let mut depth = 0;
     for e in parser {
+        for i in 1..depth {
+            print!("  ")
+        }
         match e {
             Ok(e) => {
                 match e {
                     XmlEvent::StartDocument { version, encoding, .. } => {
-                        println!("StartDocument({version}, {encoding})")
+                        println!("StartDocument({version}, {encoding})");
+                        depth += 1;
                     },
                     XmlEvent::EndDocument => {
                         println!("EndDocument");
+                        depth -= 1;
                         break;
                     }
                     XmlEvent::ProcessingInstruction { name, data } => {
                         println!("ProcessingInstruction({name}={:?})", data.as_deref().unwrap_or_default())
                     },
                     XmlEvent::StartElement { name, attributes, .. } => {
+                        depth += 1;
                         if attributes.is_empty() {
                             println!("StartElement({name})")
                         } else {
@@ -34,7 +40,8 @@ fn read_feed<R: std::io::Read>(bufreader: BufReader<R>) {
                         }
                     }
                     XmlEvent::EndElement { name } => {
-                        println!("EndElement({name})")
+                        println!("EndElement({name})");
+                        depth -= 1;
                     },
                     XmlEvent::Comment(data) => {
                         println!(r#"Comment("{}")"#, data.escape_debug())
