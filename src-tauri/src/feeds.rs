@@ -1,7 +1,7 @@
 // 参考: https://github.com/kapeli/feeds
 // https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.xml
 
-use std::io::{BufReader};
+use std::io::BufReader;
 
 use xml::reader::{EventReader, XmlEvent};
 
@@ -93,9 +93,11 @@ mod tests {
 
     #[actix_rt::test]
     async fn test_buf_feed() {
-        let content = match download_feed("https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.xml").await {
+        let feed_url = "https://raw.githubusercontent.com/Kapeli/feeds/mastera/Rust.xml";
+
+        let content = match download_feed(feed_url).await {
             Ok(it) => it,
-            Err(why) => panic!("download {}: {}", "aaa", why),
+            Err(why) => panic!("download {}: {}", feed_url, why),
         };
         read_feed(BufReader::new(content.as_bytes()));
     }
