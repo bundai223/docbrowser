@@ -617,6 +617,7 @@ version = "0.0.0"
 dependencies = [
  "actix-rt",
  "reqwest",
+ "roxmltree",
  "rspc",
  "rusqlite",
  "serde",
@@ -624,7 +625,6 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tokio",
- "xml-rs",
 ]
 
 [[package]]
@@ -2494,6 +2494,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "roxmltree"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d8f595a457b6b8c6cda66a48503e92ee8d19342f905948f29c383200ec9eb1d8"
+dependencies = [
+ "xmlparser",
+]
+
+[[package]]
 name = "rspc"
 version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4183,7 +4192,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "xml-rs"
-version = "0.8.15"
+name = "xmlparser"
+version = "0.13.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a56c84a8ccd4258aed21c92f70c0f6dea75356b6892ae27c24139da456f9336"
+checksum = "4d25c75bf9ea12c4040a97f829154768bbbce366287e2dc044af160cd79a13fd"
