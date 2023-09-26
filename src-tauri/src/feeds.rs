@@ -3,17 +3,28 @@
 
 use std::io::BufReader;
 
-fn read_feed(xml_string: &str) {
-let doc = roxmltree::Document::parse(xml_string);
+fn docset_url_from_feed(xml_string: &str) -> String {
+    let doc = match roxmltree::Document::parse(xml_string) {
+        Ok(it) => it,
+        Err(why) => panic!("couldn't open {}: {}", "Rust.xml", why),
+    };
+
+    // let doc = roxmltree::Document::parse(xml_string)?;
+    let elem = match doc.descendants().find(|n| n.has_tag_name("url")) {
+        None => panic!("noting"),
+        Some(e) => e,
+    };
+    // return Ok(String::from("suc"));
+    return String::from(elem.text().unwrap());
 }
 
 // async fn download_feed() -> Result<(), reqwest::Error> {
 async fn download_feed(url: &str) -> Result<String, reqwest::Error> {
-let content = reqwest::get(url)
-    .await?
-    .text()
-    .await?;
-Ok(content)
+    let content = reqwest::get(url)
+        .await?
+        .text()
+        .await?;
+    Ok(content)
 }
 
 
@@ -21,7 +32,6 @@ Ok(content)
 #[cfg(test)]
 mod tests {
     use std::{fs::File, io::Read};
-
     use super::*;
 
     #[test]
@@ -31,8 +41,13 @@ mod tests {
             Err(why) => panic!("couldn't open {}: {}", "Rust.xml", why),
         };
         let mut xml_string: String = String::new();
-        file.read_to_string(&mut xml_string);
-        read_feed(&xml_string);
+        let size = match file.read_to_string(&mut xml_string) {
+            Ok(it) => it,
+            Err(why) => panic!("{}", why),
+        };
+        println!("{} bytes, {}", size, xml_string);
+        let url = docset_url_from_feed(&xml_string);
+        assert!(url == "http://sanfrancisco.kapeli.com/feeds/Rust.tgz");
     }
 
     #[actix_rt::test]
@@ -43,6 +58,7 @@ mod tests {
             Ok(it) => it,
             Err(why) => panic!("download {}: {}", feed_url, why),
         };
-        read_feed(&content);
+        let url = docset_url_from_feed(&content);
+        assert!(url == "http://sanfrancisco.kapeli.com/feeds/Rust.tgz");
     }
 }
