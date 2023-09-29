@@ -1,9 +1,7 @@
 // 参考: https://github.com/kapeli/feeds
 // https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.xml
 
-use std::io::BufReader;
-
-fn docset_url_from_feed(xml_string: &str) -> String {
+pub fn docset_url_from_feed(xml_string: &str) -> String {
     let doc = match roxmltree::Document::parse(xml_string) {
         Ok(it) => it,
         Err(why) => panic!("couldn't open {}: {}", "Rust.xml", why),
@@ -26,8 +24,6 @@ async fn download_feed(url: &str) -> Result<String, reqwest::Error> {
         .await?;
     Ok(content)
 }
-
-
 
 #[cfg(test)]
 mod tests {

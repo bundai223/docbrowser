@@ -1,8 +1,13 @@
 // router/app.rs
 
+
+use std::path::Path;
+
 use rspc::Type;
 
 use crate::docset::{self, SearchIndex};
+// use crate::feeds::docset_url_from_feed;
+use crate::docsetDownloader::download_and_extract;
 
 use super::{RouterBuilder};
 
@@ -20,11 +25,14 @@ pub(crate) fn mount() -> RouterBuilder {
             t(|_, search_word: String|
                 search(&search_word)
             )
-        }
-    )
+        })
+		// .query("download_docset", |t| {
+        //     t(|_, docset_name: String|
+        //         download_docset(&docset_name)
+        //     )
+        // })
 }
 
-#[tauri::command]
 fn search(word: &str) -> SearchResult {
     if word.is_empty() {
         return SearchResult { indices: Vec::new() };
@@ -50,3 +58,7 @@ fn search(word: &str) -> SearchResult {
     result
 }
 
+fn download_docset(word: &str) {
+    let dest = Path::new("Rust.tgz");
+    download_and_extract(word, dest);
+}
