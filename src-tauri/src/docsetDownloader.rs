@@ -7,14 +7,13 @@ use tar::Archive;
 use flate2::read::GzDecoder;
 
 pub fn download_and_extract(url: &str, dest: &Path) {
-    let tmp_work = Path::new("./spec/tmp/");
     let tmp_file = Path::new("./spec/tmp/tmp.tgz");
     match download_file(url, tmp_file) {
         Ok(()) => println!("downloaded"),
         Err(why) => panic!("download {}: {}", url, why),
     };
 
-    extract(tmp_file, tmp_work);
+    extract(tmp_file, dest);
 }
 
 pub fn download_file(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>>{
@@ -29,6 +28,8 @@ pub fn extract(tgz_path: &Path, dest: &Path) -> Result<(), Box<dyn std::error::E
     let tar_gz = File::open(tgz_path)?;
     let tar = GzDecoder::new(tar_gz);
     let mut archive = Archive::new(tar);
+
+    println!("Extracting {:?} to {:?}", tgz_path, dest);
 
     if !dest.exists() {
         fs::create_dir_all(dest)?;

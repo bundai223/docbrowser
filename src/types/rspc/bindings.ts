@@ -9,6 +9,6 @@ export type Procedures = {
     subscriptions: never
 };
 
-export type SearchIndex = { id: number; name: string; doctype: string; htmlpath: string; docset_name: string }
-
 export type SearchResult = { indices: SearchIndex[] }
+
+export type SearchIndex = { id: number; name: string; doctype: string; htmlpath: string; docset_name: string }
