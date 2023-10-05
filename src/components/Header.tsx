@@ -6,7 +6,8 @@ import { tauriClient } from '@/client'
 import { SearchResult as RawSearchResult, SearchIndex as RawSearchIndex } from '@/types/rspc/bindings';
 
 type Props = {
-  searchHandler?: SearchHandler
+  searchHandler?: SearchHandler,
+  toConfigHandler: () => void
 }
 
 export type SearchResult = RawSearchResult;
@@ -35,6 +36,7 @@ function Header(props: Props) {
 
   function toConfig() {
     console.log('to config.')
+    props.toConfigHandler()
   }
 
   function onSubmit(e: FormEvent) {

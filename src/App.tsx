@@ -1,14 +1,16 @@
 // import React, { useState } from "react";
 // import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
-import Header, { SearchResult } from "./components/Header";
-import Sidebar, { Item } from "./components/Sidebar";
-import Content from "./components/Content";
+import SearchPage from "@/components/pages/search_page";
 import { registerAll, unregisterAll } from '@tauri-apps/api/globalShortcut';
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { Route, Search } from "@/routes";
+import ConfigTop from "./components/pages/config_top";
 
 function App() {
-  const [ searchResults, setSearchResult ] = useState<Item[]>([]);
+  const [ route, setRoute ] = useState<Route>(Search);
+
+  const routeSetter = (route: Route) => setRoute(route)
 
   // (async () => {
   //   console.log('unregister')
@@ -34,15 +36,18 @@ function App() {
     // })
   }, [])
 
-  const updateResult = (result: SearchResult) => {
-    setSearchResult(result.indices)
+  const page = (route: Route) => {
+    switch(route) {
+      case Search:
+        return <SearchPage setRoute={routeSetter} />
+      default:
+        return <ConfigTop setRoute={routeSetter} />
+    }
   }
 
   return (
     <div className="app">
-      <Header searchHandler={updateResult}/>
-      <Sidebar items={searchResults}/>
-      <Content />
+      {page(route)}
     </div>
   );
 }

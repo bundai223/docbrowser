@@ -7,6 +7,7 @@ use tar::Archive;
 use flate2::read::GzDecoder;
 
 pub fn download_and_extract(url: &str, dest: &Path) {
+    // let tmp_file = Path::new("./spec/tmp/tmp.tgz");
     let tmp_file = Path::new("./spec/tmp/tmp.tgz");
     match download_file(url, tmp_file) {
         Ok(()) => println!("downloaded"),
