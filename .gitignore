@@ -13,8 +13,9 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+# TODO: 自分しか開発しないので全部で共有しちゃう。だれか他の人がjoinしたらアンコメントする
+# .vscode/*
+# !.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
