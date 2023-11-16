@@ -12,16 +12,21 @@ export type Props = {
   items: Item[]
 }
 
+// docsets directory
+// TypeScript.docset/Contents/Resources/Documents
+function itemSelectedHandler(item: SearchIndex): void {
+  console.log(item)
+}
+
 function isSearchResult(item: Item): item is SearchIndex {
-  return (item as SearchIndex).htmlpath != undefined;
+  return (item as SearchIndex).html_path != undefined;
 }
 
 function Sidebar(props: Props) {
-
   const list = props.items.map((item) =>
     {
       if (isSearchResult(item)) {
-        return <MenuItem key={item.id} item={item}></MenuItem>;
+        return <MenuItem key={item.id} item={item} clickedHandler={itemSelectedHandler}></MenuItem>;
       } else {
         return <div key={item.name}>
           {item.name}

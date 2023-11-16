@@ -15,12 +15,11 @@ pub struct SearchIndex {
   id: u16,
   pub name: String,
   pub doctype: String,
-  pub htmlpath: String
+  pub html_path: String
 }
 
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
     let con = Connection::open(&db_path)?;
-    // println!("{}", con.is_autocommit());
     Ok(con)
 }
 
@@ -75,7 +74,7 @@ pub fn search_index(con:&Connection, word:&str) -> Vec<SearchIndex> {
           id: row.get(0).unwrap(),
           name: row.get(1).unwrap(),
           doctype: row.get(2).unwrap(),
-          htmlpath: row.get(3).unwrap(),
+          html_path: row.get(3).unwrap(),
       })
     }).unwrap();
 

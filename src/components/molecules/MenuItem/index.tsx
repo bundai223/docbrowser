@@ -3,19 +3,23 @@ import Icon from "@/components/atoms/Icon";
 import "./MenuItem.css"
 import { MouseEventHandler } from "@/components/components.d";
 
+type ClickedHandler = (index: SearchIndex) => void
+
 type Props = {
     item: SearchIndex;
+    clickedHandler: ClickedHandler;
 }
-
-const hoge: MouseEventHandler = (e) => {
-    console.log(e.currentTarget.getAttribute('href'))
-    
-    e.preventDefault()
-}
-
 
 function MenuItem(props: Props) {
-    return <a className="f-container" href={props.item.htmlpath} onClick={hoge}>
+    const MenuItemClickedHandler: MouseEventHandler = (e) => {
+        // console.log(e.currentTarget.getAttribute('href'))
+        props.clickedHandler(props.item)
+        
+        e.preventDefault()
+    }
+
+
+    return <a className="f-container" href={props.item.html_path} onClick={MenuItemClickedHandler}>
         <Icon name={props.item.doctype}></Icon>
         <div className="name">
             {props.item.name}

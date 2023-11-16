@@ -11,4 +11,4 @@ export type Procedures = {
 
 export type SearchResult = { indices: SearchIndex[] }
 
-export type SearchIndex = { id: number; name: string; doctype: string; htmlpath: string }
+export type SearchIndex = { id: number; name: string; doctype: string; html_path: string }
