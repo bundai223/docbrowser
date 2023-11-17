@@ -1,21 +1,17 @@
 import { SearchIndex } from "./Header";
 import "./Sidebar.css";
-import MenuItem from "./molecules/MenuItem";
+import MenuItem, { ClickedHandler } from "./molecules/MenuItem";
 
 export type Docset = {
   name: string
 };
 
 export type Item = Docset | SearchIndex;
+export type MenuClickedHandler = ClickedHandler;
 
 export type Props = {
   items: Item[]
-}
-
-// docsets directory
-// TypeScript.docset/Contents/Resources/Documents
-function itemSelectedHandler(item: SearchIndex): void {
-  console.log(item)
+  menuClicked: MenuClickedHandler
 }
 
 function isSearchResult(item: Item): item is SearchIndex {
@@ -23,6 +19,12 @@ function isSearchResult(item: Item): item is SearchIndex {
 }
 
 function Sidebar(props: Props) {
+  // docsets directory
+  // TypeScript.docset/Contents/Resources/Documents
+  function itemSelectedHandler(item: SearchIndex): void {
+    props.menuClicked(item)
+  }
+
   const list = props.items.map((item) =>
     {
       if (isSearchResult(item)) {

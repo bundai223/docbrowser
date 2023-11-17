@@ -1,15 +1,20 @@
 // import React, { useState } from "react";
 // import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
-import Header, { SearchResult } from "./components/Header";
-import Sidebar, { Item } from "./components/Sidebar";
+import Header, { SearchIndex, SearchResult } from "./components/Header";
+import Sidebar, { Item, MenuClickedHandler } from "./components/Sidebar";
 import Content from "./components/Content";
 import { registerAll, unregisterAll } from '@tauri-apps/api/globalShortcut';
 import { useEffect, useState } from "react";
 
 function App() {
   const [ searchResults, setSearchResult ] = useState<Item[]>([]);
+  const [ content, setContent ] = useState<string>('this is state content.');
 
+  const menuClicked: MenuClickedHandler = (index: SearchIndex) => {
+    console.log(index)
+    setContent(index.html_path)
+  }
   // (async () => {
   //   console.log('unregister')
   //   await unregisterAll()
@@ -41,8 +46,10 @@ function App() {
   return (
     <div className="app">
       <Header searchHandler={updateResult}/>
-      <Sidebar items={searchResults}/>
-      <Content />
+      <Sidebar items={searchResults} menuClicked={menuClicked}/>
+      <Content>
+          {content}
+      </Content>
     </div>
   );
 }

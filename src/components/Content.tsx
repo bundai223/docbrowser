@@ -1,11 +1,14 @@
 import "./Content.css";
+import { PropsWithChildren } from "./components.d";
 
-function Content() {
+type Props = PropsWithChildren;
+
+function Content(props: Props) {
   return (
     <div className="container">
       <div className="content">
         <div className="intro">
-          this is content.
+          {props.children}
         </div>
       </div>
     </div>

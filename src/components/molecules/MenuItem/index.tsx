@@ -3,7 +3,7 @@ import Icon from "@/components/atoms/Icon";
 import "./MenuItem.css"
 import { MouseEventHandler } from "@/components/components.d";
 
-type ClickedHandler = (index: SearchIndex) => void
+export type ClickedHandler = (index: SearchIndex) => void
 
 type Props = {
     item: SearchIndex;
@@ -14,7 +14,7 @@ function MenuItem(props: Props) {
     const MenuItemClickedHandler: MouseEventHandler = (e) => {
         // console.log(e.currentTarget.getAttribute('href'))
         props.clickedHandler(props.item)
-        
+
         e.preventDefault()
     }
 
