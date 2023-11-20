@@ -6,6 +6,7 @@ import Sidebar, { Item, MenuClickedHandler } from "./components/Sidebar";
 import Content from "./components/Content";
 import { registerAll, unregisterAll } from '@tauri-apps/api/globalShortcut';
 import { useEffect, useState } from "react";
+import parse from 'html-react-parser';
 
 function App() {
   const [ searchResults, setSearchResult ] = useState<Item[]>([]);
@@ -13,7 +14,8 @@ function App() {
 
   const menuClicked: MenuClickedHandler = (index: SearchIndex) => {
     console.log(index)
-    setContent(index.html_path)
+    const c = `<p>${index.html_path}</p>`
+    setContent(c)
   }
   // (async () => {
   //   console.log('unregister')
@@ -48,7 +50,7 @@ function App() {
       <Header searchHandler={updateResult}/>
       <Sidebar items={searchResults} menuClicked={menuClicked}/>
       <Content>
-          {content}
+          {parse(content)}
       </Content>
     </div>
   );
