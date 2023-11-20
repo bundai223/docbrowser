@@ -32,8 +32,9 @@ fn search(word: &str) -> Vec<SearchIndex> {
 
     let mut results: Vec<SearchIndex> = Vec::new();
     if word.is_empty() == false {
+        let docset_name = "TypeScript";
         let doc_con = docset::open_my_db("./../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
-        let search_indices = docset::search_index(&doc_con, word);
+        let search_indices = docset::search_index(&doc_con, docset_name, word);
 
         for index in search_indices {
             results.push(index)
