@@ -4,7 +4,7 @@ use rspc::Type;
 
 use crate::docset::{self, SearchIndex};
 
-use super::{RouterBuilder};
+use super::RouterBuilder;
 
 #[derive(Type, serde::Serialize)]
 struct SearchResult {
@@ -25,21 +25,17 @@ pub(crate) fn mount() -> RouterBuilder {
     )
 }
 
-#[tauri::command]
 fn search(word: &str) -> SearchResult {
-    let con = docset::open_my_db("./../docsets/hoge.db3").unwrap();
-    let docsets = docset::search_docsets(&con, word);
-
-    // let mut names: Vec<String> = Vec::new();
-    // for d in docsets {
-    //     names.push(d.name)
-    // }
-
     let mut result = SearchResult { indices: Vec::new() };
     // let mut results: Vec<SearchIndex> = Vec::new();
     if word.is_empty() == false {
-        let doc_con = docset::open_my_db("./../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
-        let search_indices = docset::search_index(&doc_con, word);
+        let docset_name = "TypeScript";
+        let docset_base_path = "./../docsets";
+        let sqlite_file_path = "Contents/Resources/docSet.dsidx";
+        let docset_path = format!("{}/{}.docset/{}", docset_base_path, docset_name, sqlite_file_path);
+
+        let doc_con = docset::open_my_db(&docset_path).unwrap();
+        let search_indices = docset::search_index(&doc_con, docset_name, word);
 
         for index in search_indices {
             result.indices.push(index)

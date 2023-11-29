@@ -1,12 +1,12 @@
 // 参考: https://github.com/kapeli/feeds
 // https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.xml
 
-use std::io::{BufReader};
+use std::io::BufReader;
 
 use xml::reader::{EventReader, XmlEvent};
 
-fn read_feed<R: std::io::Read>(bufreader: BufReader<R>) {
-    let parser = EventReader::new(bufreader);
+fn read_feed<R: std::io::Read>(buf_reader: BufReader<R>) {
+    let parser = EventReader::new(buf_reader);
     let mut depth = 0;
     for e in parser {
         match e {
@@ -80,8 +80,8 @@ mod tests {
             Ok(it) => it,
             Err(why) => panic!("couldn't open {}: {}", "Rust.xml", why),
         };
-        let bufreader = BufReader::new(file); // Buffering is important for performance
-        read_feed(bufreader);
+        let buf_reader = BufReader::new(file); // Buffering is important for performance
+        read_feed(buf_reader);
     }
 
     #[actix_rt::test]

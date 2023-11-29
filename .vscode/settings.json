@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "actix",
         "azuretools",
         "cpanm",
         "devcontainer",
@@ -7,7 +8,9 @@
         "docbrowser",
         "Docset",
         "docsets",
+        "dsidx",
         "oscartbeaumont",
+        "reqwest",
         "rspc",
         "rusqlite",
         "rustc",
