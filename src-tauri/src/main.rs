@@ -21,8 +21,6 @@ async fn main() {
             let library = app.path_resolver().app_config_dir();
             println!("app config: {:?}", library);
 
-            let app_dir = app.path_resolver().app_dir();
-            println!("app: {:?}", app_dir.unwrap());
             Ok(())
         })
         .plugin(rspc::integrations::tauri::plugin(router::mount(), || ()))

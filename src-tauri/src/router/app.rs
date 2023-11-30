@@ -14,20 +14,25 @@ struct SearchResult {
 pub(crate) fn mount() -> RouterBuilder {
 	// getAppNameをエンドポイントとし、文字列で"rspc Test Project"を返す
 	<RouterBuilder>::new()
-		.query("getAppName", |t| t(|_: (), _: ()| "rspc Test Project"))
+		.query("getAppName", |t| t(|_: (), _: ()| "DocBrowser"))
 		// .query("search", |t| t(|_, search_word: String| ok(search(&search_word))))
 		.query("search", |t| {
             // t(|_, search_word: String| { Ok::<String, rspc::Error>("Hello world".into()) })
             t(|_, search_word: String|
                 search(&search_word)
             )
-        }
-    )
+        })
+        .query("read_html", |t| {
+            t(|_, path: String|
+                read_html(&path)
+            )
+        })
 }
 
 fn search(word: &str) -> SearchResult {
     let mut result = SearchResult { indices: Vec::new() };
     // let mut results: Vec<SearchIndex> = Vec::new();
+
     if word.is_empty() == false {
         let docset_name = "TypeScript";
         let docset_base_path = "./../docsets";
@@ -46,3 +51,8 @@ fn search(word: &str) -> SearchResult {
     result
 }
 
+fn read_html(path: &str) -> String {
+    let dummy_str = format!("Hello dummy: {}", path);
+
+    return dummy_str.to_string();
+}
