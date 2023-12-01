@@ -35,9 +35,7 @@ fn search(word: &str) -> SearchResult {
 
     if word.is_empty() == false {
         let docset_name = "TypeScript";
-        let docset_base_path = "./../docsets";
-        let sqlite_file_path = "Contents/Resources/docSet.dsidx";
-        let docset_path = format!("{}/{}.docset/{}", docset_base_path, docset_name, sqlite_file_path);
+        let docset_path = docset::docset_database_path(docset_name);
 
         let doc_con = docset::open_my_db(&docset_path).unwrap();
         let search_indices = docset::search_index(&doc_con, docset_name, word);
@@ -51,8 +49,10 @@ fn search(word: &str) -> SearchResult {
     result
 }
 
-fn read_html(path: &str) -> String {
-    let dummy_str = format!("Hello dummy: {}", path);
+fn read_html(docset_name: &str, path: &str) -> String {
+    // let dummy_str = format!("Hello dummy: {}", path);
+    // return dummy_str.to_string();
+    let html = docset::read_html(path);
 
-    return dummy_str.to_string();
+    return html;
 }

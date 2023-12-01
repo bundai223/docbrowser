@@ -7,6 +7,7 @@ import Content from "./components/Content";
 import { registerAll, unregisterAll } from '@tauri-apps/api/globalShortcut';
 import { useEffect, useState } from "react";
 import parse from 'html-react-parser';
+import { tauriClient } from "./client";
 
 function App() {
   const [ searchResults, setSearchResult ] = useState<Item[]>([]);
@@ -14,9 +15,13 @@ function App() {
 
   const menuClicked: MenuClickedHandler = (index: SearchIndex) => {
     console.log(index)
-    const c = `<p>${index.html_path}</p>`
-    setContent(c)
+
+    tauriClient.query(['app.read_html', index.html_path]).then((html) => {
+      const c = `<p>${html}</p>`
+      setContent(c)
+    })
   }
+
   // (async () => {
   //   console.log('unregister')
   //   await unregisterAll()

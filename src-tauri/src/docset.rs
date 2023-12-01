@@ -1,3 +1,5 @@
+use std::fs;
+
 use rspc::Type;
 use rusqlite::{params, Connection, Result};
 
@@ -15,6 +17,28 @@ pub struct SearchIndex {
   pub html_path: String,
   pub docset_name: String,
 }
+
+pub fn docset_path(docset_name: &str) -> String {
+    let docset_base_path = "./../docsets";
+    let p = format!("{}/{}.docset", docset_base_path, docset_name);
+
+    return p;
+}
+
+pub fn docset_database_path(docset_name: &str) -> String {
+    let sqlite_file_path = "Contents/Resources/docSet.dsidx";
+    let p = format!("{}/{}", docset_path(docset_name), sqlite_file_path);
+
+    return p;
+}
+
+
+pub fn document_path(docset_name: &str, rel_path: &str) -> String {
+    let p = format!("{}/{}", docset_path(docset_name), rel_path);
+
+    return p;
+}
+
 
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
     let con = Connection::open(&db_path)?;
@@ -41,4 +65,9 @@ pub fn search_index(con:&Connection, docset_name: &str, word:&str) -> Vec<Search
       _results.push(index);
     }
     _results
+}
+
+pub fn read_html(path: &str) -> String {
+  let websites = fs::read_to_string(path).unwrap();
+  return websites;
 }
