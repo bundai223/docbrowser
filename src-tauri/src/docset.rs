@@ -32,13 +32,11 @@ pub fn docset_database_path(docset_name: &str) -> String {
     return p;
 }
 
-
-pub fn document_path(docset_name: &str, rel_path: &str) -> String {
-    let p = format!("{}/{}", docset_path(docset_name), rel_path);
+pub fn document_page_path(docset_name: &str, rel_path: &str) -> String {
+    let p = format!("{}/Contents/Resources/Documents/{}", docset_path(docset_name), rel_path);
 
     return p;
 }
-
 
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
     let con = Connection::open(&db_path)?;
@@ -67,7 +65,10 @@ pub fn search_index(con:&Connection, docset_name: &str, word:&str) -> Vec<Search
     _results
 }
 
-pub fn read_html(path: &str) -> String {
+pub fn read_html(docset_name: &str, rel_path: &str) -> String {
+  let path = document_page_path(docset_name, rel_path);
+
+  println!("doc page path: {}", path);
   let websites = fs::read_to_string(path).unwrap();
   return websites;
 }

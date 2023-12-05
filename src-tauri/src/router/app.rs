@@ -11,6 +11,12 @@ struct SearchResult {
     indices: Vec<SearchIndex>
 }
 
+#[derive(Type, serde::Deserialize)]
+struct DocPage {
+    pub docset_name: String,
+    pub rel_path: String,
+}
+
 pub(crate) fn mount() -> RouterBuilder {
 	// getAppNameをエンドポイントとし、文字列で"rspc Test Project"を返す
 	<RouterBuilder>::new()
@@ -23,8 +29,8 @@ pub(crate) fn mount() -> RouterBuilder {
             )
         })
         .query("read_html", |t| {
-            t(|_, path: String|
-                read_html(&path)
+            t(|_, page_info: DocPage|
+                read_html(&page_info.docset_name, &page_info.rel_path)
             )
         })
 }
@@ -49,10 +55,10 @@ fn search(word: &str) -> SearchResult {
     result
 }
 
-fn read_html(docset_name: &str, path: &str) -> String {
+fn read_html(docset_name: &str, rel_path: &str) -> String {
     // let dummy_str = format!("Hello dummy: {}", path);
     // return dummy_str.to_string();
-    let html = docset::read_html(path);
+    let html = docset::read_html(docset_name, rel_path);
 
     return html;
 }

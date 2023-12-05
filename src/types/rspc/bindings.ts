@@ -4,7 +4,7 @@
 export type Procedures = {
     queries: 
         { key: "app.getAppName", input: never, result: string } | 
-        { key: "app.read_html", input: string, result: string } | 
+        { key: "app.read_html", input: DocPage, result: string } | 
         { key: "app.search", input: string, result: SearchResult },
     mutations: never,
     subscriptions: never
@@ -13,3 +13,5 @@ export type Procedures = {
 export type SearchResult = { indices: SearchIndex[] }
 
 export type SearchIndex = { id: number; name: string; doctype: string; html_path: string; docset_name: string }
+
+export type DocPage = { docset_name: string; rel_path: string }

@@ -16,7 +16,8 @@ function App() {
   const menuClicked: MenuClickedHandler = (index: SearchIndex) => {
     console.log(index)
 
-    tauriClient.query(['app.read_html', index.html_path]).then((html) => {
+    const file_path = index.html_path.split('#')[0]
+    tauriClient.query(['app.read_html', { docset_name: index.docset_name, rel_path: file_path }]).then((html) => {
       const c = `<p>${html}</p>`
       setContent(c)
     })
