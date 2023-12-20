@@ -12,14 +12,17 @@ import { tauriClient } from "./client";
 function App() {
   const [ searchResults, setSearchResult ] = useState<Item[]>([]);
   const [ content, setContent ] = useState<string>('this is state content.');
+  const [ selectedAnchor, setSelectedAnchor ] = useState<string | null>(null);
 
   const menuClicked: MenuClickedHandler = (index: SearchIndex) => {
     console.log(index)
 
     const file_path = index.html_path.split('#')[0]
+    const anchor = index.html_path.split('#')[1]
     tauriClient.query(['app.read_html', { docset_name: index.docset_name, rel_path: file_path }]).then((html) => {
       const c = `<p>${html}</p>`
       setContent(c)
+      setSelectedAnchor(anchor)
     })
   }
 
@@ -46,6 +49,12 @@ function App() {
     //   }
     // })
   }, [])
+
+  useEffect(() => {
+    console.log(`updated content or anchor: ${selectedAnchor}`)
+
+    // $('dashAnchor[=selectedAnchor]')までスクロールする
+  }, [content, selectedAnchor])
 
   const updateResult = (result: SearchResult) => {
     setSearchResult(result.indices)
