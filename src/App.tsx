@@ -54,6 +54,16 @@ function App() {
     console.log(`updated content or anchor: ${selectedAnchor}`)
 
     // $('dashAnchor[=selectedAnchor]')までスクロールする
+    const offset = 0;
+    const anchor = document.querySelector(`.dashAnchor[name="${selectedAnchor}"]`);
+    if (!anchor) {
+      return
+    }
+    const offsetTop = anchor.getBoundingClientRect().top + window.scrollY;
+    window.scroll({
+      top: offsetTop - offset,
+      behavior: 'instant'
+    })
   }, [content, selectedAnchor])
 
   const updateResult = (result: SearchResult) => {
