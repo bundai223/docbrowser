@@ -20,11 +20,11 @@ pub struct SearchIndex {
 }
 
 pub fn docsets_master_db_path() -> String {
-  "./docsets/docsets.sqlite3".to_string()
+  "../docsets/docsets.sqlite3".to_string()
 }
 
 pub fn docset_db_path(docset_name: impl Into<String>) -> String {
-  "./docsets/TypeScript.docset/Contents/Resources/docSet.dsidx".to_string()
+  "../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx".to_string()
 }
 
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
