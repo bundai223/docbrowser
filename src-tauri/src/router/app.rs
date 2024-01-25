@@ -39,7 +39,7 @@ fn search(word: &str) -> SearchResult {
     }
 
     let target_docset_name = "TypeScript";
-    let docsets_connection = docset::open_my_db(&docset::docsets_mater_db_path()).unwrap();
+    let docsets_connection = docset::open_my_db(&docset::docsets_master_db_path()).unwrap();
     // let docsets = docset::search_docsets(&docsets_connection, word);
     let docsets = docset::search_docsets(&docsets_connection, target_docset_name);
 

@@ -19,7 +19,7 @@ pub struct SearchIndex {
   pub docset_name: String
 }
 
-pub fn docsets_mater_db_path() -> String {
+pub fn docsets_master_db_path() -> String {
   "./docsets/docsets.sqlite3".to_string()
 }
 
