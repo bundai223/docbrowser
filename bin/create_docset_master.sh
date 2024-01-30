@@ -3,8 +3,8 @@ set -xue
 
 # https://github.com/Kapeli/feeds
 file="./docsets/docsets.sqlite3"
-sqlite3 --cmd "create table docsets(id integer, name text, alias text, feed_url text, docset_path text);" $file
-sqlite3 --cmd "insert into docsets values(1, 'TypeScript', 'ts', 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml', 'TypeScript.docset');" $file
+sqlite3 $file "create table docsets(id integer, name text, alias text, feed_url text, docset_path text);"
+sqlite3 $file "insert into docsets values(1, 'TypeScript', 'ts', 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml', 'TypeScript.docset');"
 
 #https://raw.githubusercontent.com/Kapeli/feeds/master/AWS_JavaScript.xml
 #https://raw.githubusercontent.com/Kapeli/feeds/master/ActionScript.xml
