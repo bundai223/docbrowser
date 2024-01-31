@@ -19,12 +19,16 @@ pub struct SearchIndex {
   pub docset_name: String
 }
 
-pub fn docsets_master_db_path() -> String {
-  "../docsets/docsets.sqlite3".to_string()
+fn docsets_base_path() -> String {
+  "/workspaces/docbrowser".to_string() // TODO: pathはconfigからとってくる
 }
 
-pub fn docset_db_path(docset_name: impl Into<String>) -> String {
-  "../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx".to_string()
+pub fn docsets_master_db_path() -> String {
+  return format!("{}/docsets/docsets.sqlite3", docsets_base_path());
+}
+
+pub fn docset_db_path(docset_name: impl Into<String> + std::fmt::Display) -> String {
+  return format!("{}/docsets/{}.docset/Contents/Resources/docSet.dsidx", docsets_base_path(), docset_name);
 }
 
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
