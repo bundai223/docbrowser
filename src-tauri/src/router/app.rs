@@ -5,7 +5,7 @@ use std::path::Path;
 
 use rspc::Type;
 
-use crate::docset::{self, SearchIndex};
+use crate::docset::{self, Docset, SearchIndex};
 // use crate::feeds::docset_url_from_feed;
 use crate::docsetDownloader::download_and_extract;
 
@@ -26,11 +26,20 @@ pub(crate) fn mount() -> RouterBuilder {
                 search(&search_word)
             )
         })
+		.query("docsets", |t| t(|_: (), _: ()| docsets()))
 		// .query("download_docset", |t| {
         //     t(|_, docset_name: String|
         //         download_docset(&docset_name)
         //     )
         // })
+}
+
+fn docsets() -> Vec<Docset> {
+    let docsets_connection = docset::open_my_db(&docset::docsets_master_db_path()).unwrap();
+    // let docsets = docset::search_docsets(&docsets_connection, word);
+    let docsets = docset::docsets(&docsets_connection);
+
+    docsets
 }
 
 fn search(word: &str) -> SearchResult {

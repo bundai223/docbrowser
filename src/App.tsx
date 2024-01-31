@@ -10,7 +10,10 @@ import ConfigTop from "./components/pages/config_top";
 function App() {
   const [ route, setRoute ] = useState<Route>(Search);
 
-  const routeSetter = (route: Route) => setRoute(route)
+  const routeSetter = (route: Route) => {
+    console.log(`set route ${route.toString()}`)
+    setRoute(route)
+  }
 
   // (async () => {
   //   console.log('unregister')

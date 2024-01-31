@@ -6,9 +6,9 @@ file="./docsets/docsets.sqlite3"
 
 rm -f $file
 
-sqlite3 $file "create table docsets(id integer, name text, alias text, feed_url text, docset_path text);"
+sqlite3 $file "create table docsets(id integer, name text, alias text, feed_url text, docset_path text, downloaded boolean);"
 
-sqlite3 $file "insert into docsets values(1, 'TypeScript', 'ts', 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml', 'TypeScript.docset');"
+sqlite3 $file "insert into docsets values(1, 'TypeScript', 'ts', 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml', 'TypeScript.docset', 1);"
 
 #https://raw.githubusercontent.com/Kapeli/feeds/master/AWS_JavaScript.xml
 #https://raw.githubusercontent.com/Kapeli/feeds/master/ActionScript.xml

@@ -1,13 +1,14 @@
 use rspc::Type;
 use rusqlite::{params, Connection, Result};
 
-#[derive(Debug)]
+#[derive(Debug, Type, serde::Serialize)]
 pub struct Docset {
   id: u16,
   pub name: String,
   alias: String,
   feed_url: String,
-  docset_path: String
+  docset_path: String,
+  downloaded: bool
 }
 
 #[derive(Type, serde::Serialize)]
@@ -38,14 +39,16 @@ pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
 }
 
 pub fn docsets(con:&Connection) -> Vec<Docset> {
-    let mut stmt = con.prepare("select id, name, alias, feed_url, docset_path from docsets").unwrap();
+    // let mut stmt = con.prepare("select id, name, alias, feed_url, docset_path, downloaded from docsets").unwrap();
+    let mut stmt = con.prepare("select * from docsets").unwrap();
     let docset_results = stmt.query_map(params![], |row| {
       Ok(Docset {
           id: row.get(0).unwrap(),
           name: row.get(1).unwrap(),
           alias: row.get(2).unwrap(),
           feed_url: row.get(3).unwrap(),
-          docset_path: row.get(4).unwrap()
+          docset_path: row.get(4).unwrap(),
+          downloaded: row.get(5).unwrap()
       })
     }).unwrap();
 
@@ -59,7 +62,8 @@ pub fn docsets(con:&Connection) -> Vec<Docset> {
 }
 
 pub fn search_docsets(con: &Connection, word: &str) -> Vec<Docset> {
-    let query = format!("select id, name, alias, feed_url, docset_path from docsets where name like '%{}%'", word);
+    // let query = format!("select id, name, alias, feed_url, docset_path from docsets where name like '%{}%'", word);
+    let query = format!("select * from docsets where name like '%{}%'", word);
     let mut stmt = con.prepare(&query.to_string()).unwrap();
     let docset_results = stmt.query_map(params![], |row| {
       Ok(Docset {
@@ -67,7 +71,8 @@ pub fn search_docsets(con: &Connection, word: &str) -> Vec<Docset> {
           name: row.get(1).unwrap(),
           alias: row.get(2).unwrap(),
           feed_url: row.get(3).unwrap(),
-          docset_path: row.get(4).unwrap()
+          docset_path: row.get(4).unwrap(),
+          downloaded: row.get(5).unwrap()
       })
     }).unwrap();
 
