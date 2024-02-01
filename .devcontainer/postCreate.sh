@@ -14,6 +14,8 @@ sudo chown -R :rustlang /usr/local/rustup
 # cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib) \
 # cpanm JSON Net::SSLeay LWP::Simple LWP::Protocol::https
 
-cargo install tauri-cli@1.5.2
+# cargo install tauri-cli@1.5.2
+pnpm update @tauri-apps/cli @tauri-apps/api --latest
+pnpm outdated @tauri-apps/cli
 
 pnpm i
