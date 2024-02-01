@@ -2,6 +2,7 @@
 
 
 use std::path::Path;
+use std::string;
 
 use rspc::Type;
 
@@ -9,7 +10,7 @@ use crate::docset::{self, Docset, SearchIndex};
 // use crate::feeds::docset_url_from_feed;
 use crate::docsetDownloader::download_and_extract;
 
-use super::{RouterBuilder};
+use super::RouterBuilder;
 
 #[derive(Type, serde::Serialize)]
 struct SearchResult {
@@ -27,11 +28,11 @@ pub(crate) fn mount() -> RouterBuilder {
             )
         })
 		.query("docsets", |t| t(|_: (), _: ()| docsets()))
-		// .query("download_docset", |t| {
-        //     t(|_, docset_name: String|
-        //         download_docset(&docset_name)
-        //     )
-        // })
+		.query("download_docset", |t| {
+            t(|_, to_download: ToDownloadDocset|
+                download_docset(to_download)
+            )
+        })
 }
 
 fn docsets() -> Vec<Docset> {
@@ -67,7 +68,14 @@ fn search(word: &str) -> SearchResult {
     result
 }
 
-fn download_docset(word: &str) {
-    let dest = Path::new("Rust.tgz");
-    download_and_extract(word, dest);
+#[derive(Type, serde::Deserialize)]
+struct ToDownloadDocset {
+    name: String,
+    url: String
+}
+
+fn download_docset(to_download_docset: ToDownloadDocset) {
+    println!("{}, {}", to_download_docset.name, to_download_docset.url)
+    // let dest = Path::new(to_download_docset.name);
+    // download_and_extract(to_download_docset.url, dest);
 }

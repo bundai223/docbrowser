@@ -1,16 +1,37 @@
 import { Docset } from "@/types/rspc/bindings"
+import Button from "../atoms/Button"
 
 type Props = {
-    docsets: Docset[]
+    docsets: Docset[],
+    downloadDocsetHandler: (docset: Docset) => void
 }
 
 function DocsetList(props: Props) {
-    let docsets = props.docsets.map(d => <li>{d.name}, {d.downloaded ? '○': '×'}</li>)
+    function onDownloadClicked(clickedDocset: Docset) {
+        console.log(`DL Clicked: ${clickedDocset.toString()}`)
+        props.downloadDocsetHandler(clickedDocset)
+    }
+
+    const docsets = props.docsets.map(
+        d => {
+            const download = d.downloaded ? '○' : <Button onClick={(e) => onDownloadClicked(d)}>DL</Button>
+            return <tr key={d.name}>
+                <td>{d.name}</td>
+                <td>{download}</td>
+            </tr>
+        }
+    )
 
     return <>
-        <ul>
-            {docsets}
-        </ul>
+        <table>
+            <th>
+                <td>name</td>
+                <td>status</td>
+            </th>
+            <tbody>
+                {docsets}
+            </tbody>
+        </table>
     </>
 }
 
