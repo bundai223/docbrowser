@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ue
+set -uex
 
 insert() {
     name=$1
@@ -253,6 +253,7 @@ insert 'Rust' 'rs' 'https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.x
 
 # docset本体が存在していれば、downloadedを1にする
 update_state() {
+    docset_name=$1
     ls $docset_base_path/$1 > /dev/null 2>&1 && echo $1
     ls $docset_base_path/$1 > /dev/null 2>&1 && sqlite3 $file "update docsets set downloaded = 1 where docset_path = '$docset_name';"
 }
@@ -261,5 +262,5 @@ export -f update_state
 export docset_base_path
 export file
 
-sqlite3 $file "select docset_path from docsets;" | xargs -I% bash -c 'update_state %'
+sqlite3 $file "select docset_path from docsets;" | xargs -I% bash -cxe 'update_state %'
 sqlite3 $file "select * from docsets;"
