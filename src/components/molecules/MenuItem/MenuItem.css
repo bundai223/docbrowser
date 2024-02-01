@@ -1,6 +1,13 @@
 .f-container {
     display: flex;
     flex-direction: row;
+
+    color: var(--selectionText);
+}
+
+.f-container:hover {
+    color: var(--selectionText);
+    background-color: var(--selectionBackGround);
 }
 
 Icon {
@@ -8,5 +15,5 @@ Icon {
 }
 
 .name {
-    flex-grow: 1;  
+    flex-grow: 1;
 }

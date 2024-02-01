@@ -7,12 +7,12 @@ type Props = {
 }
 
 function MenuItem(props: Props) {
-    return <div className="f-container">
+    return <a className="f-container" href={props.item.htmlpath}>
         <Icon name={props.item.doctype}></Icon>
         <div className="name">
             {props.item.name}
         </div>
-    </div>
+    </a>
 }
 
 export default MenuItem;
