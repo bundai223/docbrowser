@@ -1,14 +1,28 @@
 #!/bin/bash
-set -xue
+set -ue
+
+insert() {
+    name=$1
+    alias=$2
+    feed_url=$3
+    docset_path=$4
+    downloaded=0
+
+    sqlite3 $file "insert into docsets (name, alias, feed_url, docset_path, downloaded) values('$name', '$alias', '$feed_url', '$docset_path', '$downloaded');"
+}
 
 # https://github.com/Kapeli/feeds
-file="./docsets/docsets.sqlite3"
+# 一番下で
+docset_base_path="./docsets"
+file="$docset_base_path/docsets.sqlite3"
 
 rm -f $file
 
-sqlite3 $file "create table docsets(id integer, name text, alias text, feed_url text, docset_path text, downloaded boolean);"
+sqlite3 $file "create table docsets(id integer primary key autoincrement, name text, alias text, feed_url text, docset_path text, downloaded boolean);"
 
-sqlite3 $file "insert into docsets values(1, 'TypeScript', 'ts', 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml', 'TypeScript.docset', 1);"
+# sqlite3 $file "insert into docsets (name, alias, feed_url, docset_path, downloaded) values('TypeScript', 'ts', 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml', 'TypeScript.docset', 1);"
+insert 'TypeScript' 'ts' 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml' 'TypeScript.docset'
+insert 'Rust' 'rs' 'https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.xml' 'Rust.docset'
 
 #https://raw.githubusercontent.com/Kapeli/feeds/master/AWS_JavaScript.xml
 #https://raw.githubusercontent.com/Kapeli/feeds/master/ActionScript.xml
@@ -236,3 +250,16 @@ sqlite3 $file "insert into docsets values(1, 'TypeScript', 'ts', 'https://raw.gi
 #https://raw.githubusercontent.com/Kapeli/feeds/master/jQuery.xml
 #https://raw.githubusercontent.com/Kapeli/feeds/master/jQuery_Mobile.xml
 #https://raw.githubusercontent.com/Kapeli/feeds/master/jQuery_UI.xml
+
+# docset本体が存在していれば、downloadedを1にする
+update_state() {
+    ls $docset_base_path/$1 > /dev/null 2>&1 && echo $1
+    ls $docset_base_path/$1 > /dev/null 2>&1 && sqlite3 $file "update docsets set downloaded = 1 where docset_path = '$docset_name';"
+}
+export -f update_state
+
+export docset_base_path
+export file
+
+sqlite3 $file "select docset_path from docsets;" | xargs -I% bash -c 'update_state %'
+sqlite3 $file "select * from docsets;"
