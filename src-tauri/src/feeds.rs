@@ -17,7 +17,7 @@ pub fn docset_url_from_feed(xml_string: &str) -> String {
 }
 
 // async fn download_feed() -> Result<(), reqwest::Error> {
-async fn download_feed(url: &str) -> Result<String, reqwest::Error> {
+pub async fn download_feed(url: &str) -> Result<String, reqwest::Error> {
     let content = reqwest::get(url)
         .await?
         .text()

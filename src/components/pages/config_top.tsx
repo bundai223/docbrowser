@@ -23,7 +23,6 @@ function ConfigTop(props: Props) {
   {
     tauriClient.query(['app.docsets']).then(
       d => {
-        console.log('hoge')
         setDocsets(d)
       }
     ).catch(e => console.log(e))
@@ -33,7 +32,7 @@ function ConfigTop(props: Props) {
     <div className="config">
       this is config top
       <Button onClick={toSearch}>back</Button>
-      <DocsetList docsets={docsets} downloadDocsetHandler={(docset) => { tauriClient.query(['app.download_docset', { name: docset.name, url: docset.feed_url}]).then(() => console.log('download done')) }}/>
+      <DocsetList docsets={docsets} downloadDocsetHandler={(docset) => { tauriClient.mutation(['app.download_docset', { name: docset.name, feed_url: docset.feed_url}]).then(() => console.log('download done')).catch(e => console.log(e)) }}/>
     </div>
   );
 }

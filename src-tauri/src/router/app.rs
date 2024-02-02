@@ -9,6 +9,7 @@ use rspc::Type;
 use crate::docset::{self, Docset, SearchIndex};
 // use crate::feeds::docset_url_from_feed;
 use crate::docsetDownloader::download_and_extract;
+use crate::feeds::{docset_url_from_feed, download_feed};
 
 use super::RouterBuilder;
 
@@ -28,10 +29,10 @@ pub(crate) fn mount() -> RouterBuilder {
             )
         })
 		.query("docsets", |t| t(|_: (), _: ()| docsets()))
-		.query("download_docset", |t| {
-            t(|_, to_download: ToDownloadDocset|
-                download_docset(to_download)
-            )
+		.mutation("download_docset", |t| {
+            t(|_, to_download: ToDownloadDocset| async move {
+                download_docset(to_download).await
+            })
         })
 }
 
@@ -71,11 +72,18 @@ fn search(word: &str) -> SearchResult {
 #[derive(Type, serde::Deserialize)]
 struct ToDownloadDocset {
     name: String,
-    url: String
+    feed_url: String
 }
 
-fn download_docset(to_download_docset: ToDownloadDocset) {
-    println!("{}, {}", to_download_docset.name, to_download_docset.url)
-    // let dest = Path::new(to_download_docset.name);
-    // download_and_extract(to_download_docset.url, dest);
+async fn download_docset(to_download_docset: ToDownloadDocset) {
+    println!("{}, {}", to_download_docset.name, to_download_docset.feed_url);
+
+    let content = match download_feed(&(to_download_docset.feed_url)).await {
+        Ok(it) => it,
+        Err(why) => panic!("download {}: {}", to_download_docset.feed_url, why),
+    };
+    let url = docset_url_from_feed(&content);
+
+    let dest = Path::new(&(to_download_docset.name));
+    download_and_extract(&url, dest);
 }
