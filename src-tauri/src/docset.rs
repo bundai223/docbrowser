@@ -21,15 +21,19 @@ pub struct SearchIndex {
 }
 
 fn docsets_base_path() -> String {
-  "/workspaces/docbrowser".to_string() // TODO: pathはconfigからとってくる
+  "/workspaces/docbrowser/docsets".to_string() // TODO: pathはconfigからとってくる
 }
 
 pub fn docsets_master_db_path() -> String {
-  return format!("{}/docsets/docsets.sqlite3", docsets_base_path());
+  return format!("{}/docsets.sqlite3", docsets_base_path());
+}
+
+pub fn docset_path(docset_name: impl Into<String> + std::fmt::Display) -> String {
+  return format!("{}/{}.docset", docsets_base_path(), docset_name);
 }
 
 pub fn docset_db_path(docset_name: impl Into<String> + std::fmt::Display) -> String {
-  return format!("{}/docsets/{}.docset/Contents/Resources/docSet.dsidx", docsets_base_path(), docset_name);
+  return format!("{}/Contents/Resources/docSet.dsidx", docset_path(docset_name));
 }
 
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {

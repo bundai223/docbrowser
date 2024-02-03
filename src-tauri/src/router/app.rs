@@ -5,7 +5,7 @@ use std::path::Path;
 
 use rspc::Type;
 
-use crate::docset::{self, Docset, SearchIndex};
+use crate::docset::{self, docset_path, Docset, SearchIndex};
 // use crate::feeds::docset_url_from_feed;
 use crate::docset_downloader::download_and_extract;
 use crate::feeds::{docset_url_from_feed, download_feed};
@@ -83,8 +83,9 @@ async fn download_docset(to_download_docset: ToDownloadDocset) -> Result<(), ()>
     };
     let url = docset_url_from_feed(&content);
 
-    let dest = Path::new(&(to_download_docset.name));
-    download_and_extract(&url, dest);
+    let dest_path: String = docset_path(to_download_docset.name);
+    let dest = Path::new(&dest_path);
+    download_and_extract(&url, dest).await;
 
     Ok(())
 }

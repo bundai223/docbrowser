@@ -6,10 +6,10 @@ use std::path::Path;
 use tar::Archive;
 use flate2::read::GzDecoder;
 
-pub fn download_and_extract(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>> {
+pub async fn download_and_extract(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>> {
     // let tmp_file = Path::new("./spec/tmp/tmp.tgz");
     let tmp_file = Path::new("./spec/tmp/tmp.tgz");
-    match download_file(url, tmp_file) {
+    match download_file(url, tmp_file).await {
         Ok(()) => println!("downloaded"),
         Err(why) => panic!("download {}: {}", url, why),
     };
@@ -17,10 +17,11 @@ pub fn download_and_extract(url: &str, dest: &Path) -> Result<(), Box<dyn std::e
     return extract(tmp_file, dest);
 }
 
-pub fn download_file(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>>{
-    let response = reqwest::blocking::get(url).unwrap();
+pub async fn download_file(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>>{
+    // let response = reqwest::blocking::get(url).unwrap();
+    let response = reqwest::get(url).await?;
     let mut file = File::create(dest).unwrap();
-    copy(&mut response.bytes().unwrap().as_ref(), &mut file).unwrap();
+    copy(&mut response.bytes().await?.as_ref(), &mut file).unwrap();
 
     Ok(())
 }
@@ -46,11 +47,11 @@ mod tests {
     use std::path::Path;
     use super::*;
 
-    #[test]
-    fn test_download_docset() {
+    #[actix_rt::test]
+    async fn test_download_docset() {
         let url = "http://sanfrancisco.kapeli.com/feeds/Rust.tgz";
         let dest = Path::new("./spec/tmp/extract/");
-        let result = download_and_extract(url, &dest);
+        let result = download_and_extract(url, &dest).await;
 
         assert!(result.is_ok()); // とりあえず結果を見る
     }

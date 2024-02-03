@@ -19,6 +19,14 @@ function ConfigTop(props: Props) {
     props.setRoute(Search)
   }
 
+  function downloadDocset(docset: Docset) {
+    tauriClient.mutation(['app.download_docset', {
+      name: docset.name, feed_url: docset.feed_url
+    }])
+    .then(() => console.log('download done'))
+    .catch(e => console.log(e))
+  }
+
   useEffect(() =>
   {
     tauriClient.query(['app.docsets']).then(
@@ -32,7 +40,7 @@ function ConfigTop(props: Props) {
     <div className="config">
       this is config top
       <Button onClick={toSearch}>back</Button>
-      <DocsetList docsets={docsets} downloadDocsetHandler={(docset) => { tauriClient.mutation(['app.download_docset', { name: docset.name, feed_url: docset.feed_url}]).then(() => console.log('download done')).catch(e => console.log(e)) }}/>
+      <DocsetList docsets={docsets} downloadDocsetHandler={(docset) => { downloadDocset(docset) }}/>
     </div>
   );
 }
