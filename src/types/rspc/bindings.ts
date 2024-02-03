@@ -11,10 +11,10 @@ export type Procedures = {
     subscriptions: never
 };
 
-export type ToDownloadDocset = { name: string; feed_url: string }
+export type SearchResult = { indices: SearchIndex[] }
 
 export type SearchIndex = { id: number; name: string; doctype: string; htmlpath: string; docset_name: string }
 
-export type Docset = { id: number; name: string; alias: string; feed_url: string; docset_path: string; downloaded: boolean }
+export type ToDownloadDocset = { name: string; feed_url: string }
 
-export type SearchResult = { indices: SearchIndex[] }
+export type Docset = { id: number; name: string; alias: string; feed_url: string; docset_path: string; downloaded: boolean }

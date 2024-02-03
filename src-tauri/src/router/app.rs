@@ -2,13 +2,12 @@
 
 
 use std::path::Path;
-use std::string;
 
 use rspc::Type;
 
 use crate::docset::{self, Docset, SearchIndex};
 // use crate::feeds::docset_url_from_feed;
-use crate::docsetDownloader::download_and_extract;
+use crate::docset_downloader::download_and_extract;
 use crate::feeds::{docset_url_from_feed, download_feed};
 
 use super::RouterBuilder;
@@ -30,8 +29,8 @@ pub(crate) fn mount() -> RouterBuilder {
         })
 		.query("docsets", |t| t(|_: (), _: ()| docsets()))
 		.mutation("download_docset", |t| {
-            t(|_, to_download: ToDownloadDocset| async move {
-                download_docset(to_download).await
+            t(|_, to_download: ToDownloadDocset| async {
+                download_docset(to_download).await;
             })
         })
 }
@@ -75,7 +74,7 @@ struct ToDownloadDocset {
     feed_url: String
 }
 
-async fn download_docset(to_download_docset: ToDownloadDocset) {
+async fn download_docset(to_download_docset: ToDownloadDocset) -> Result<(), ()> {
     println!("{}, {}", to_download_docset.name, to_download_docset.feed_url);
 
     let content = match download_feed(&(to_download_docset.feed_url)).await {
@@ -86,4 +85,6 @@ async fn download_docset(to_download_docset: ToDownloadDocset) {
 
     let dest = Path::new(&(to_download_docset.name));
     download_and_extract(&url, dest);
+
+    Ok(())
 }

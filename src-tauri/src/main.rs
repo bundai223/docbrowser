@@ -4,7 +4,7 @@
 mod router;
 mod feeds;
 mod docset;
-mod docsetDownloader;
+mod docset_downloader;
 mod debug;
 
 #[tokio::main]
@@ -13,7 +13,7 @@ async fn main() {
 
     tauri::Builder::default()
         .plugin(rspc::integrations::tauri::plugin(router::mount(), || ()))
-        .invoke_handler(tauri::generate_handler![])
+        // .invoke_handler(tauri::generate_handler![])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
