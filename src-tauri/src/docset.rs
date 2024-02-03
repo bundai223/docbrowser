@@ -16,11 +16,11 @@ pub struct SearchIndex {
   id: u16,
   pub name: String,
   pub doctype: String,
-  pub htmlpath: String,
+  pub html_path: String,
   pub docset_name: String
 }
 
-fn docsets_base_path() -> String {
+pub fn docsets_base_path() -> String {
   "/workspaces/docbrowser/docsets".to_string() // TODO: pathはconfigからとってくる
 }
 
@@ -38,7 +38,6 @@ pub fn docset_db_path(docset_name: impl Into<String> + std::fmt::Display) -> Str
 
 pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
     let con = Connection::open(&db_path)?;
-    // println!("{}", con.is_autocommit());
     Ok(con)
 }
 
@@ -97,7 +96,7 @@ pub fn search_index(con:&Connection, word:&str, docset: Docset) -> Vec<SearchInd
           id: row.get(0).unwrap(),
           name: row.get(1).unwrap(),
           doctype: row.get(2).unwrap(),
-          htmlpath: row.get(3).unwrap(),
+          html_path: row.get(3).unwrap(),
           docset_name: docset.name.clone(),
       })
     }).unwrap();
@@ -110,20 +109,3 @@ pub fn search_index(con:&Connection, word:&str, docset: Docset) -> Vec<SearchInd
     }
     _results
 }
-
-// pub fn select_window(con:&Connection) {
-//     let mut stmt = con.prepare("select id,department,name,salary,avg(salary) over defw from person window defw as (partition by department)").unwrap();
-//     let persons = stmt.query_map(params![], |row| {
-//       Ok(Docset {
-//           id: row.get_unwrap(0),
-//           department: row.get_unwrap(1),
-//           name: row.get_unwrap(2),
-//           salary: row.get_unwrap(3),
-//           avg_salary:Some(row.get_unwrap(4))
-//       })
-//     }).unwrap();
-
-//     for p in persons {
-//       println!("{:?}", p.unwrap());
-//     }
-// }

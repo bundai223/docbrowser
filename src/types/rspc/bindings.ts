@@ -13,7 +13,7 @@ export type Procedures = {
 
 export type SearchResult = { indices: SearchIndex[] }
 
-export type SearchIndex = { id: number; name: string; doctype: string; htmlpath: string; docset_name: string }
+export type SearchIndex = { id: number; name: string; doctype: string; html_path: string; docset_name: string }
 
 export type ToDownloadDocset = { name: string; feed_url: string }
 

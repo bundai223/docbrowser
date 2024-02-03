@@ -23,6 +23,10 @@ sqlite3 $file "create table docsets(id integer primary key autoincrement, name t
 # sqlite3 $file "insert into docsets (name, alias, feed_url, docset_path, downloaded) values('TypeScript', 'ts', 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml', 'TypeScript.docset', 1);"
 insert 'TypeScript' 'ts' 'https://raw.githubusercontent.com/Kapeli/feeds/master/TypeScript.xml' 'TypeScript.docset'
 insert 'Rust' 'rs' 'https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.xml' 'Rust.docset'
+insert 'Ruby' 'rb' 'https://raw.githubusercontent.com/Kapeli/feeds/master/Ruby_3.xml' 'Ruby.docset'
+insert 'Bash' 'bash' 'https://raw.githubusercontent.com/Kapeli/feeds/master/Bash.xml' 'Bash.docset'
+insert 'CSS' 'css' 'https://raw.githubusercontent.com/Kapeli/feeds/master/CSS.xml' 'CSS.docset'
+insert 'Docker' 'docker' 'https://raw.githubusercontent.com/Kapeli/feeds/master/Docker.xml' 'Docker.docset'
 
 #https://raw.githubusercontent.com/Kapeli/feeds/master/AWS_JavaScript.xml
 #https://raw.githubusercontent.com/Kapeli/feeds/master/ActionScript.xml
