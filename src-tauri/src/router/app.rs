@@ -30,7 +30,11 @@ pub(crate) fn mount() -> RouterBuilder {
 		.query("docsets", |t| t(|_: (), _: ()| docsets()))
 		.mutation("download_docset", |t| {
             t(|_, to_download: ToDownloadDocset| async {
-                download_docset(to_download).await;
+                let docset_name = to_download.name.clone();
+                match download_docset(to_download).await {
+                    Ok(it) => it,
+                    Err(_) => panic!("download docset rspc handler: {}", docset_name),
+                }
             })
         })
 }
@@ -79,7 +83,7 @@ async fn download_docset(to_download_docset: ToDownloadDocset) -> Result<(), ()>
 
     let content = match download_feed(&(to_download_docset.feed_url)).await {
         Ok(it) => it,
-        Err(why) => panic!("download {}: {}", to_download_docset.feed_url, why),
+        Err(why) => panic!("download feed {}: {}", to_download_docset.feed_url, why),
     };
     let url = docset_url_from_feed(&content);
 
@@ -87,7 +91,11 @@ async fn download_docset(to_download_docset: ToDownloadDocset) -> Result<(), ()>
     // let dest = Path::new(&dest_path);
     let dest_path_str = docsets_base_path();
     let dest = Path::new(&dest_path_str);
-    download_and_extract(&url, dest).await;
+    
+    match download_and_extract(&url, dest).await {
+        Ok(it) => it,
+        Err(why) => panic!("download docset {}: {}", url, why),
+    }
 
     Ok(())
 }

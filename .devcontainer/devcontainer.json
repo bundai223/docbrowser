@@ -40,7 +40,8 @@
         "rust-lang.rust-analyzer",
         "vadimcn.vscode-lldb",
         "oscartbeaumont.rspc-vscode",
-        "Zerotaskx.rust-extension-pack"
+        "Zerotaskx.rust-extension-pack",
+        "oscartbeaumont.rspc-vscode"
       ]
     }
   },
