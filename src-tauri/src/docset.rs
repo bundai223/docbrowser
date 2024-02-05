@@ -41,6 +41,12 @@ pub fn open_my_db(db_path: &str) -> Result<Connection, rusqlite::Error> {
     Ok(con)
 }
 
+pub fn download_complete_docset(con:&Connection, docset: Docset) {
+    let query = format!("update docsets set downloaded = 1 where docset_path = '{}';", docset.docset_path);
+    
+    let result = con.execute(&query, params![]).unwrap();
+}
+
 pub fn docsets(con:&Connection) -> Vec<Docset> {
     // let mut stmt = con.prepare("select id, name, alias, feed_url, docset_path, downloaded from docsets").unwrap();
     let mut stmt = con.prepare("select * from docsets").unwrap();
