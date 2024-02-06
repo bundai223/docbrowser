@@ -45,6 +45,9 @@
       ]
     }
   },
+  "containerEnv": {
+    "RUST_BACKTRACE": "1"
+  },
   "mounts": [
     {
       "source": "node_modules",
