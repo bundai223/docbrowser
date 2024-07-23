@@ -17,6 +17,7 @@ docset_base_path="./docsets"
 file="$docset_base_path/docsets.sqlite3"
 
 rm -f $file
+mkdir -p $docset_base_path
 
 sqlite3 $file "create table docsets(id integer primary key autoincrement, name text, alias text, feed_url text, docset_path text, downloaded boolean);"
 

@@ -41,6 +41,7 @@ pub fn extract(tgz_path: &Path, dest: &Path) -> Result<(), Box<dyn std::error::E
     }
 
     archive.unpack(dest)?;
+    println!("Extracting Done {:?}", dest);
 
     Ok(())
 }
