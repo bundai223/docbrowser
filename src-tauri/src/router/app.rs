@@ -1,9 +1,8 @@
 // router/app.rs
 
-
 use std::path::Path;
 
-use rspc::Type;
+use specta::Type;
 
 use crate::docset::{self, docsets_base_path, Docset, SearchIndex};
 // use crate::feeds::docset_url_from_feed;
@@ -14,21 +13,19 @@ use super::RouterBuilder;
 
 #[derive(Type, serde::Serialize)]
 struct SearchResult {
-    indices: Vec<SearchIndex>
+    indices: Vec<SearchIndex>,
 }
 
 pub(crate) fn mount() -> RouterBuilder {
-	<RouterBuilder>::new()
-	    // getAppNameをエンドポイントとし、文字列で"rspc Test Project"を返す
-		.query("getAppName", |t| t(|_: (), _: ()| "rspc Test Project"))
-		.query("search", |t| {
+    <RouterBuilder>::new()
+        // getAppNameをエンドポイントとし、文字列で"rspc Test Project"を返す
+        .query("getAppName", |t| t(|_: (), _: ()| "rspc Test Project"))
+        .query("search", |t| {
             // t(|_, search_word: String| { Ok::<String, rspc::Error>("Hello world".into()) })
-            t(|_, search_word: String|
-                search(&search_word)
-            )
+            t(|_, search_word: String| search(&search_word))
         })
-		.query("docsets", |t| t(|_: (), _: ()| docsets()))
-		.mutation("download_docset", |t| {
+        .query("docsets", |t| t(|_: (), _: ()| docsets()))
+        .mutation("download_docset", |t| {
             t(|_, to_download: ToDownloadDocset| async {
                 let docset_name = to_download.name.clone();
                 match download_docset(to_download).await {
@@ -42,14 +39,40 @@ pub(crate) fn mount() -> RouterBuilder {
 fn docsets() -> Vec<Docset> {
     let docsets_connection = docset::open_my_db(&docset::docsets_master_db_path()).unwrap();
     // let docsets = docset::search_docsets(&docsets_connection, word);
-    let docsets = docset::docsets(&docsets_connection);
+    let docsets = {
+        let con: &Connection = &docsets_connection;
+        // let mut stmt = con.prepare("select id, name, alias, feed_url, docset_path, downloaded from docsets").unwrap();
+        let mut stmt = con.prepare("select * from docsets").unwrap();
+        let docset_results = stmt
+            .query_map(params![], |row| {
+                Ok(Docset {
+                    id: row.get(0).unwrap(),
+                    name: row.get(1).unwrap(),
+                    alias: row.get(2).unwrap(),
+                    feed_url: row.get(3).unwrap(),
+                    docset_path: row.get(4).unwrap(),
+                    downloaded: row.get(5).unwrap(),
+                })
+            })
+            .unwrap();
+
+        let mut _docsets: Vec<Docset> = Vec::new();
+        for d in docset_results {
+            let docset = d.unwrap();
+            // println!("{:?}", docset);
+            _docsets.push(docset);
+        }
+        _docsets
+    };
 
     docsets
 }
 
 fn search(word: &str) -> SearchResult {
     if word.is_empty() {
-        return SearchResult { indices: Vec::new() };
+        return SearchResult {
+            indices: Vec::new(),
+        };
     }
 
     let target_docset_name = "TypeScript";
@@ -57,7 +80,9 @@ fn search(word: &str) -> SearchResult {
     // let docsets = docset::search_docsets(&docsets_connection, word);
     let docsets = docset::search_docsets(&docsets_connection, target_docset_name);
 
-    let mut result = SearchResult { indices: Vec::new() };
+    let mut result = SearchResult {
+        indices: Vec::new(),
+    };
 
     for d in docsets {
         // let doc_con = docset::open_my_db("./../docsets/TypeScript.docset/Contents/Resources/docSet.dsidx").unwrap();
@@ -75,11 +100,14 @@ fn search(word: &str) -> SearchResult {
 #[derive(Type, serde::Deserialize)]
 struct ToDownloadDocset {
     name: String,
-    feed_url: String
+    feed_url: String,
 }
 
 async fn download_docset(to_download_docset: ToDownloadDocset) -> Result<(), ()> {
-    println!("{}, {}", to_download_docset.name, to_download_docset.feed_url);
+    println!(
+        "{}, {}",
+        to_download_docset.name, to_download_docset.feed_url
+    );
 
     let content = match download_feed(&(to_download_docset.feed_url)).await {
         Ok(it) => it,
@@ -91,7 +119,7 @@ async fn download_docset(to_download_docset: ToDownloadDocset) -> Result<(), ()>
     // let dest = Path::new(&dest_path);
     let dest_path_str = docsets_base_path();
     let dest = Path::new(&dest_path_str);
-    
+
     match download_and_extract(&url, dest).await {
         Ok(it) => it,
         Err(why) => panic!("download docset {}: {}", url, why),

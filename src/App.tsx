@@ -2,7 +2,7 @@
 // import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 import SearchPage from "@/components/pages/search_page";
-import { registerAll, unregisterAll } from '@tauri-apps/api/globalShortcut';
+// import { registerAll, unregisterAll } from '@tauri-apps/api/globalShortcut';
 import { useState, useEffect } from "react";
 import { Route, Search } from "@/routes";
 import ConfigTop from "./components/pages/config_top";

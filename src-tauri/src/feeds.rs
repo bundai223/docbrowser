@@ -18,17 +18,14 @@ pub fn docset_url_from_feed(xml_string: &str) -> String {
 
 // async fn download_feed() -> Result<(), reqwest::Error> {
 pub async fn download_feed(url: &str) -> Result<String, reqwest::Error> {
-    let content = reqwest::get(url)
-        .await?
-        .text()
-        .await?;
+    let content = reqwest::get(url).await?.text().await?;
     Ok(content)
 }
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::File, io::Read};
     use super::*;
+    use std::{fs::File, io::Read};
 
     #[test]
     fn test_read_feed() {

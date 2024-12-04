@@ -3,15 +3,17 @@
 
 use std::env;
 
-mod router;
-mod feeds;
+mod debug;
 mod docset;
 mod docset_downloader;
-mod debug;
+mod feeds;
+mod router;
 
 #[tokio::main]
 async fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .setup(|app| {
             let _ = debug::debug_print(&app);
             Ok(())
