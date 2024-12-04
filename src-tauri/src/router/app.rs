@@ -2,6 +2,7 @@
 
 use std::path::Path;
 
+use rusqlite::params;
 use specta::Type;
 
 use crate::docset::{self, docsets_base_path, Docset, SearchIndex};

@@ -3,17 +3,17 @@ use rusqlite::{params, Connection, Result};
 
 #[derive(Debug, Type, serde::Serialize)]
 pub struct Docset {
-    id: u16,
+    pub id: u16,
     pub name: String,
-    alias: String,
-    feed_url: String,
-    docset_path: String,
-    downloaded: bool,
+    pub alias: String,
+    pub feed_url: String,
+    pub docset_path: String,
+    pub downloaded: bool,
 }
 
 #[derive(Type, serde::Serialize)]
 pub struct SearchIndex {
-    id: u16,
+    pub id: u16,
     pub name: String,
     pub doctype: String,
     pub html_path: String,
