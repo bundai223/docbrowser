@@ -26,7 +26,7 @@ roxmltree = "0.20.0"
 tar = "0.4.43"
 flate2 = "1.0.32"
 tauri-plugin-shell = "2"
-specta = "1.0.5"
+# specta = "1.0.5" # Removed to resolve version conflict with rspc
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
