@@ -4,7 +4,7 @@ import DocsetList from "../organisms/DocsetList";
 import { tauriClient } from "@/client";
 import { useEffect, useState } from "react";
 import { Docset } from "@/types/rspc/bindings";
-import { tauri } from "@tauri-apps/api";
+import { core } from "@tauri-apps/api";
 
 type Props = {
     setRoute: RouteSetter

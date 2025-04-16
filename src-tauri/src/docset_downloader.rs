@@ -1,12 +1,15 @@
 use std::{env, fs};
 
+use flate2::read::GzDecoder;
 use std::fs::File;
 use std::io::copy;
 use std::path::Path;
 use tar::Archive;
-use flate2::read::GzDecoder;
 
-pub async fn download_and_extract(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>> {
+pub async fn download_and_extract(
+    url: &str,
+    dest: &Path,
+) -> Result<(), Box<dyn std::error::Error>> {
     // let tmp_file = Path::new("./spec/tmp/tmp.tgz");
     let path = env::current_dir()?;
     println!("The current directory is {}", path.display());
@@ -20,7 +23,7 @@ pub async fn download_and_extract(url: &str, dest: &Path) -> Result<(), Box<dyn 
     return extract(tmp_file, dest);
 }
 
-pub async fn download_file(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>>{
+pub async fn download_file(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>> {
     // let response = reqwest::blocking::get(url).unwrap();
     let response = reqwest::get(url).await?;
     let mut file = File::create(dest).unwrap();
@@ -41,14 +44,15 @@ pub fn extract(tgz_path: &Path, dest: &Path) -> Result<(), Box<dyn std::error::E
     }
 
     archive.unpack(dest)?;
+    println!("Extracting Done {:?}", dest);
 
     Ok(())
 }
 
 #[cfg(test)]
 mod tests {
-    use std::path::Path;
     use super::*;
+    use std::path::Path;
 
     #[actix_rt::test]
     async fn test_download_docset() {
