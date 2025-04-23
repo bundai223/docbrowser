@@ -1,9 +1,11 @@
 import path from "node:path";
 import react from "@vitejs/plugin-react-swc";
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
+import type { UserConfig } from "vitest/config";
 
 // https://vitejs.dev/config/
-export default defineConfig(async () => ({
+export default defineConfig(async (): Promise<UserConfig> => ({
   plugins: [react()],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
@@ -29,5 +31,8 @@ export default defineConfig(async () => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  test: {
+    exclude: ["src-tauri/**", "node_modules/**", "dist/**", "docsets/**"]
   },
 }));

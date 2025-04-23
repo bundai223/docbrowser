@@ -14,7 +14,7 @@ pub async fn download_and_extract(
     let path = env::current_dir()?;
     println!("The current directory is {}", path.display());
 
-    let tmp_file = Path::new("./src-tauri/spec/tmp/tmp.tgz");
+    let tmp_file = Path::new("./spec/tmp/tmp.tgz");
     match download_file(url, tmp_file).await {
         Ok(()) => println!("downloaded"),
         Err(why) => panic!("download {}: {}", url, why),
