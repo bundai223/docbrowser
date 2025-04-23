@@ -10,7 +10,8 @@
       "./dist/",
       "./coverage/",
       "./src-tauri/target",
-      "./src-tauri/spec/tmp/"
+      "./src-tauri/spec/tmp/",
+      "./src-tauri/gen/"
     ]
   },
   "linter": {
