@@ -19,8 +19,8 @@
     "@rspc/react-query": "^0.3.1",
     "@rspc/tauri": "^0.3.1",
     "@tauri-apps/api": "^2.5.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
