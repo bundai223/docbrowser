@@ -26,8 +26,12 @@ pub async fn download_and_extract(
 pub async fn download_file(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>> {
     // let response = reqwest::blocking::get(url).unwrap();
     let response = reqwest::get(url).await?;
-    let mut file = File::create(dest).unwrap();
-    copy(&mut response.bytes().await?.as_ref(), &mut file).unwrap();
+    // Ensure the parent directory exists
+    if let Some(parent) = dest.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    let mut file = File::create(dest)?;
+    copy(&mut response.bytes().await?.as_ref(), &mut file)?;
 
     Ok(())
 }

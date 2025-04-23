@@ -45,7 +45,7 @@ mod tests {
 
     #[actix_rt::test]
     async fn test_buf_feed() {
-        let feed_url = "https://raw.githubusercontent.com/Kapeli/feeds/mastera/Rust.xml";
+        let feed_url = "https://raw.githubusercontent.com/Kapeli/feeds/master/Rust.xml";
 
         let content = match download_feed(feed_url).await {
             Ok(it) => it,

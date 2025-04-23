@@ -8,7 +8,7 @@ use specta::Type;
 
 use crate::docset::{self, docsets_base_path, Docset, SearchIndex};
 // use crate::feeds::docset_url_from_feed;
-use crate::docset_downloader::download_and_extract;
+use crate::docset::downloader::download_and_extract;
 use crate::feeds::{docset_url_from_feed, download_feed};
 
 use super::RouterBuilder;

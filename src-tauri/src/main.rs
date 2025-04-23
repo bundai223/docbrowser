@@ -5,10 +5,9 @@ use std::env;
 use rspc_tauri; // Add this line
 
 mod debug;
-mod docset;
-mod docset_downloader;
-mod feeds;
 mod router;
+pub mod docset;
+pub mod feeds;
 
 #[tokio::main]
 async fn main() {
