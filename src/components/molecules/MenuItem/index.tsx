@@ -1,4 +1,4 @@
-import { SearchIndex } from "@/components/Header";
+import type { SearchIndex } from "@/components/Header";
 import Icon from "@/components/atoms/Icon";
 import "./MenuItem.css"
 
@@ -7,8 +7,8 @@ type Props = {
 }
 
 function MenuItem(props: Props) {
-    return <a className="f-container" href={props.item.htmlpath}>
-        <Icon name={props.item.doctype}></Icon>
+    return <a className="f-container" href={props.item.html_path}>
+        <Icon name={props.item.doctype} />
         <div className="name">
             {props.item.name}
         </div>

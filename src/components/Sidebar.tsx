@@ -1,40 +1,38 @@
-import { SearchIndex } from "./Header";
+import type { SearchIndex } from "./Header";
 import "./Sidebar.css";
 import MenuItem from "./molecules/MenuItem";
 
 export type Docset = {
-  name: string
+	name: string;
 };
 
 export type Item = Docset | SearchIndex;
 
 export type Props = {
-  items: Item[]
-}
+	items: Item[];
+};
 
 function isSearchResult(item: Item): item is SearchIndex {
-  return (item as SearchIndex).htmlpath != undefined;
+	return (item as SearchIndex).html_path !== undefined;
 }
 
 function Sidebar(props: Props) {
+	const list = props.items.map((item) => {
+		if (isSearchResult(item)) {
+			return <MenuItem key={item.id} item={item} />;
+		}
+		return (
+			<div key={item.name}>
+				{item.name}
+			</div>
+		);
+	});
 
-  const list = props.items.map((item) =>
-    {
-      if (isSearchResult(item)) {
-        return <MenuItem key={item.id} item={item}></MenuItem>;
-      } else {
-        return <div key={item.name}>
-          {item.name}
-        </div>
-      }
-    }
-  )
-
-  return (
-    <div className="sidebar">
-      {list}
-    </div>
-  );
+	return (
+		<div className="sidebar">
+			{list}
+		</div>
+	);
 }
 
 export default Sidebar;
