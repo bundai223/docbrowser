@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import type { ReactNode } from "react";
 
-export type MouseEventHandler = React.MouseEventHandler<HTMLButtonElement>
-export type PropsWithChildren<P> = P & { children?: ReactNode }
+export type MouseEventHandler = React.MouseEventHandler<HTMLButtonElement>;
+export type PropsWithChildren<P> = P & { children?: ReactNode };
