@@ -42,7 +42,8 @@
         "Zerotaskx.rust-extension-pack",
         "fill-labs.dependi",
         "alexcvzz.vscode-sqlite",
-        "biomejs.biome"
+        "biomejs.biome",
+        "github.vscode-github-actions"
       ]
     }
   },
