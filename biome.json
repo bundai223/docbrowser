@@ -23,7 +23,8 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "ignore": ["./src/types/rspc/bindings.ts"]
   },
   "javascript": {
     "formatter": {
