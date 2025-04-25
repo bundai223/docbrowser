@@ -1,18 +1,18 @@
 /* https://devdocs.io を参考にしている */
 
 .sidebar {
-    position: absolute;
-    z-index: var(--sidebarZ);
-    top: 0;
-    bottom: 0;
-    left: 0;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    padding-top: var(--headerHeight);
-    background: var(--sidebarBackground);
-    background-clip: content-box;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: none;
+  position: absolute;
+  z-index: var(--sidebarZ);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-top: var(--headerHeight);
+  background: var(--sidebarBackground);
+  background-clip: content-box;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
 
-    width: var(--sidebarWidth);
+  width: var(--sidebarWidth);
 }

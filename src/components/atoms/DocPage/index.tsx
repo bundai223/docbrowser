@@ -1,9 +1,9 @@
 type Props = {
-    pagePath: string
-}
+  pagePath: string;
+};
 
 function DocPage(props: Props) {
-    return <></>
+  return <></>;
 }
 
 export default DocPage;

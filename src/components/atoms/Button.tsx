@@ -1,13 +1,15 @@
-import { MouseEventHandler, PropsWithChildren } from '../components.d';
+import type { MouseEventHandler, PropsWithChildren } from "../components.d";
 
 type Props = {
-  onClick: MouseEventHandler
-}
+  onClick: MouseEventHandler;
+};
 
 function Button({ onClick, children }: PropsWithChildren<Props>) {
-  return <button onClick={onClick}>
-    {children}
-  </button>
+  return (
+    <button type="button" onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 export default Button;

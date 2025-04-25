@@ -1,7 +1,0 @@
-build
-coverage
-dist
-
-src-tauri/target/*
-.pnpm-store/*
-node_modules/*

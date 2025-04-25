@@ -14,7 +14,7 @@ pub async fn download_and_extract(
     let path = env::current_dir()?;
     println!("The current directory is {}", path.display());
 
-    let tmp_file = Path::new("./src-tauri/spec/tmp/tmp.tgz");
+    let tmp_file = Path::new("./spec/tmp/tmp.tgz");
     match download_file(url, tmp_file).await {
         Ok(()) => println!("downloaded"),
         Err(why) => panic!("download {}: {}", url, why),
@@ -26,8 +26,12 @@ pub async fn download_and_extract(
 pub async fn download_file(url: &str, dest: &Path) -> Result<(), Box<dyn std::error::Error>> {
     // let response = reqwest::blocking::get(url).unwrap();
     let response = reqwest::get(url).await?;
-    let mut file = File::create(dest).unwrap();
-    copy(&mut response.bytes().await?.as_ref(), &mut file).unwrap();
+    // Ensure the parent directory exists
+    if let Some(parent) = dest.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    let mut file = File::create(dest)?;
+    copy(&mut response.bytes().await?.as_ref(), &mut file)?;
 
     Ok(())
 }

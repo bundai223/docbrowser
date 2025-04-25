@@ -1,27 +1,30 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import Button from './atoms/Button';
-import './Header.css'
+import { type ChangeEvent, type FormEvent, useState } from "react";
+import Button from "./atoms/Button";
+import "./Header.css";
 // import { invoke } from '@tauri-apps/api';
-import { tauriClient } from '@/client'
-import { SearchResult as RawSearchResult, SearchIndex as RawSearchIndex } from '@/types/rspc/bindings';
+import { tauriClient } from "@/client";
+import type {
+  SearchIndex as RawSearchIndex,
+  SearchResult as RawSearchResult,
+} from "@/types/rspc/bindings";
 
 type Props = {
-  searchHandler?: SearchHandler,
-  toConfigHandler: () => void
-}
+  searchHandler?: SearchHandler;
+  toConfigHandler: () => void;
+};
 
 export type SearchResult = RawSearchResult;
 export type SearchIndex = RawSearchIndex;
-export type SearchHandler = (searched: SearchResult) => void
+export type SearchHandler = (searched: SearchResult) => void;
 
 const search = (search_word: string): Promise<RawSearchResult> => {
-	// return await invoke('get_app_name')
-	return tauriClient.query(['app.search', search_word]) // エディタ補完が効く
-}
+  // return await invoke('get_app_name')
+  return tauriClient.query(["app.search", search_word]); // エディタ補完が効く
+};
 
 function Header(props: Props) {
   // console.log(props)
-  const [ search_query, setSearchQuery ] = useState<string>('')
+  const [search_query, setSearchQuery] = useState<string>("");
 
   async function onChange(e: ChangeEvent<HTMLInputElement>) {
     const _query = e.currentTarget.value;
@@ -35,8 +38,8 @@ function Header(props: Props) {
   }
 
   function toConfig() {
-    console.log('to config.')
-    props.toConfigHandler()
+    console.log("to config.");
+    props.toConfigHandler();
   }
 
   function onSubmit(e: FormEvent) {
@@ -46,7 +49,8 @@ function Header(props: Props) {
   return (
     <div className="header">
       <form className="search" onSubmit={onSubmit}>
-        <input type="search"
+        <input
+          type="search"
           name="q"
           className="_search-input"
           placeholder="Search…"
@@ -57,12 +61,11 @@ function Header(props: Props) {
           maxLength={30}
           aria-label="Search"
           onChange={onChange}
-        >
-        </input>
+        />
       </form>
       <Button onClick={toConfig}>・・・</Button>
     </div>
-  )
+  );
 }
 
 export default Header;

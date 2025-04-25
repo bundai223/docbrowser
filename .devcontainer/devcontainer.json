@@ -41,7 +41,9 @@
         "oscartbeaumont.rspc-vscode",
         "Zerotaskx.rust-extension-pack",
         "fill-labs.dependi",
-        "alexcvzz.vscode-sqlite"
+        "alexcvzz.vscode-sqlite",
+        "biomejs.biome",
+        "github.vscode-github-actions"
       ]
     }
   },

@@ -1,3 +1,5 @@
+pub mod downloader;
+
 use specta::Type;
 use rusqlite::{params, Connection, Result};
 

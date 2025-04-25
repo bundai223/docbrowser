@@ -1,11 +1,11 @@
-import "./icon.css"
+import "./icon.css";
 
 type Props = {
-    name: string
-}
+  name: string;
+};
 
 function Icon(props: Props) {
-    return <div className="icon">{props.name[0]}</div>
+  return <div className="icon">{props.name[0]}</div>;
 }
 
-export default Icon; 
+export default Icon;

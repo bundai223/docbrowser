@@ -1,19 +1,19 @@
 .f-container {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 
-    color: var(--selectionText);
+  color: var(--selectionText);
 }
 
 .f-container:hover {
-    color: var(--selectionText);
-    background-color: var(--selectionBackGround);
+  color: var(--selectionText);
+  background-color: var(--selectionBackGround);
 }
 
 Icon {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .name {
-    flex-grow: 1;
+  flex-grow: 1;
 }

@@ -1,8 +1,8 @@
 name: "publish"
 on:
   push:
-    branches:
-      - release
+    tags:
+      - 'v*.*.*' # Trigger on tags like v1.0.0
 
 jobs:
   publish-tauri:
@@ -15,12 +15,12 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
         with:
           version: 8.6.2
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: "pnpm"
@@ -40,5 +40,5 @@ jobs:
           tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
           releaseName: "App v__VERSION__"
           releaseBody: "See the assets to download this version and install."
-          releaseDraft: true
+          releaseDraft: false # Create a full release, not a draft
           prerelease: false
